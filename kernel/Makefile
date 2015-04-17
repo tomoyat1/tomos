@@ -1,8 +1,9 @@
 all: kernel.o i386
-	gcc i386/boot.o -o kernel 
+	@echo "Build final kernel image here"	 
 
-kernel.o: 
-	gcc -c kernel.c -o kernel.o
+%.o: %.c
+	$(CC) -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
+	$(CC) -v
 
 .PHONY: i386
 i386:

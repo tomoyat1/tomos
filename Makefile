@@ -1,13 +1,12 @@
-CC=i686-elf-gcc --sysroot=$(shell pwd)/sysroot 
-CFLAGS=$(CFLAGS) -ffreestanding -Wall -Werror
-CPPFLAGS=$(CFLAGS) -D__is_tomos_kernel -Iinclude
+CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Werror
+CPPFLAGS:=$(CFLAGS) -D__is_tomos_kernel -Iinclude
 LDFLAGS:=$(LDFLAGS)
-PREFIX=$(shell pwd)
+PREFIX?=$(shell pwd)
 BOOTDIR?=$(PREFIX)/boot
 INCLUDEDIR?=$(PREFIX)/sysroot/usr/include
 LIBS:=$(LIBS) -nostdlib -lk -lgcc
 
-
+export CC CFLAGS CPPFLAGS LDFLAGS BOOTDIR INCLUDEDIR LIBS
 
 
 
