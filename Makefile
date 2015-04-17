@@ -17,6 +17,3 @@ all: kernel
 .PHONY: kernel test
 kernel:
 	make -C kernel
-
-test:
-	$(CC) --version
