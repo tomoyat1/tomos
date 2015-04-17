@@ -2,12 +2,12 @@
 #include <stddef.h>
 #include <stdint.h>
 
-void outb(uint16_t ioport, uint8_t output)
+void outb(uint8_t output, uint16_t port)
 {
-	__asm__ __volatile__(
-		"outb %1, %2"
+	__asm__ volatile(
+		"outb %0, %1"
 		:
-		:"r"(ioport), "r"(output)	
+		: "a"(output), "Nd"(port)	
 	);
 
 }

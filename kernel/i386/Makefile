@@ -1,7 +1,9 @@
-all: boot.o
-	echo Building i386	
-boot.o:
-	#i686-elf-as boot.S -o boot.o
+all: boot.o io.o
+	@echo Building i386	
+%.o: %.S
+	$(CC) -c $< -o $@ $(CFLAGS) $(CPPFLAGS)	
+%.o: %.c
+	$(CC) -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)	
 .PHONY: clean
 clean:
 	rm ./*.o
