@@ -1,3 +1,15 @@
+/*
+ *     tables.c
+ *     IDT, GDT, LDT...all the good stuf:)f
+ *
+ *
+ *
+*/
+
+
+
+
+
 #include <kernel/tables.h>
 
 

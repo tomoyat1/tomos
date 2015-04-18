@@ -1,3 +1,7 @@
+/*
+   tables.h
+*/
+
 #ifndef __TABLES__
 #define __TABLES__
 

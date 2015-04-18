@@ -1,3 +1,13 @@
+/*
+ *   io.c
+ *   inb() and outb(), possibly more function relating to io ports.
+ *
+ *
+*/ 
+
+
+
+
 #include <kernel/io.h>
 #include <stddef.h>
 #include <stdint.h>
