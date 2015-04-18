@@ -13,7 +13,6 @@ export CC CFLAGS CPPFLAGS LDFLAGS PREFIX BOOTDIR INCLUDEDIR LIBS
 
 
 all: kernel
-	echo "Building all"	
 
 .PHONY: kernel test clean
 kernel:
