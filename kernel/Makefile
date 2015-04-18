@@ -5,6 +5,9 @@ all: kernel.o i386
 %.o: %.c
 	$(CC) -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 
-.PHONY: i386
+.PHONY: i386 clean
 i386:
 	make -C i386
+
+clean:
+	rm ./*.o && make clean -C i386
