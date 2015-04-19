@@ -1,6 +1,6 @@
 /*
  *     tables.c
- *     IDT, GDT, LDT...all the good stuf:)f
+ *     IDT & GDT, LDT is obsolete
  *
  *
  *
