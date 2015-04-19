@@ -5,7 +5,7 @@
  *  bit protected mode.
  *
  *
-*/
+ */
 
 #include <kernel/tables.h>
 //#include <kernel/vga.h>

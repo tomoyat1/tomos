@@ -3,7 +3,7 @@
  *   inb() and outb(), possibly more function relating to io ports.
  *
  *
-*/ 
+ */ 
 
 
 
