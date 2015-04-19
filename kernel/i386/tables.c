@@ -16,7 +16,7 @@
 
 segdesc_t create_segdesc(unsigned int seglim, unsigned int baseaddr, uint16_t type, uint16_t systemf, uint16_t dpl, uint16_t presentf, uint16_t d_bf,uint16_t granularityf)
 {
-	segdesc_t newSegdesc;
+	segdesc_t new_descriptor;
 
 	//declare what would become members.
 	uint16_t seglim_low, baseaddr_low, b8to23;
@@ -47,12 +47,20 @@ segdesc_t create_segdesc(unsigned int seglim, unsigned int baseaddr, uint16_t ty
 	b8to23 = type & system_flag & dpl_shifted & present_flag & (seglim_high << 8) & bits2021 & d_b_flag & granularity_flag;	
 	
 	//write them out
-	newSegdesc.segment_limit_low = seglim_low;
-	newSegdesc.base_address_low = baseaddr_low;
-	newSegdesc.base_address_mid = baseaddr_mid;
-	newSegdesc.bytes_eight_to_twentythree = b8to23;
-	newSegdesc.base_address_high = baseaddr_high;
-	return newSegdesc;
+	new_descriptor.segment_limit_low = seglim_low;
+	new_descriptor.base_address_low = baseaddr_low;
+	new_descriptor.base_address_mid = baseaddr_mid;
+	new_descriptor.bytes_eight_to_twentythree = b8to23;
+	new_descriptor.base_address_high = baseaddr_high;
+	return new_descriptor;
+}
+
+segselect_t create_segselect(uint8_t rpl, uint8_t ti, uint16_t index)
+{
+	segselect_t new_selector;
+	new_selector = rpl & ti << 2 & index << 3;
+	return new_selector;
+	
 }
 void set_idt()
 {
