@@ -54,7 +54,6 @@ segdesc_t create_segdesc(unsigned int seglim, unsigned int baseaddr, uint16_t ty
 	newSegdesc.base_address_high = baseaddr_high;
 	return newSegdesc;
 }
-//TODO: reevaluate correctness of shift opreations-correct
 void set_idt()
 {
 	//Do stuff!!
