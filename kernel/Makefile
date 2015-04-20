@@ -6,8 +6,8 @@ all: kernel.o i386 lib
 	$(CC) -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 
 .PHONY: i386 lib clean
-i386:
-	make -C i386
+x86:
+	make -C x86
 
 lib:
 	make -C lib 
