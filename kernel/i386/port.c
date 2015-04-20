@@ -5,12 +5,10 @@
  *
  */ 
 
-
-
-
-#include <kernel/port.h>
 #include <stddef.h>
 #include <stdint.h>
+
+#include <kernel/port.h>
 
 void outb(uint8_t output, uint16_t port)
 {

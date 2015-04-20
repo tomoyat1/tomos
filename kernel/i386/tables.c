@@ -70,4 +70,6 @@ void set_idt()
 void set_gdt()
 {
 	//Do stuff!!
+	//KERNEL_TEXT, KERNEL_DATA,USER_TEXT,USER_DATA will all start from 0x00000000 and end at 0xFFFFFFFF
+	// Screw segmentation. Paging is the way to go!
 }

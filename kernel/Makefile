@@ -1,13 +1,16 @@
 export CC CFLAGS CPPFLAGS LDFLAGS LIBS
-all: kernel.o i386
+all: kernel.o i386 lib
 	@echo "Build final kernel image here"	 
 
 %.o: %.c
 	$(CC) -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 
-.PHONY: i386 clean
+.PHONY: i386 lib clean
 i386:
 	make -C i386
 
+lib:
+	make -C lib 
+
 clean:
-	rm ./*.o && make clean -C i386
+	rm ./*.o && make clean -C i386 && make clean -C lib

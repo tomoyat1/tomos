@@ -9,15 +9,17 @@
 
 #include <kernel/tables.h>
 //#include <kernel/vga.h>
+//#include <kernel/kprint.h>
 
 void multiboot_start()
 {
   //kprint("Booting")
 
-  //IDT
+  //hocus-pocus to relocate kernel at high memory.
 
   //GDT
 
-  //LDT
+  //IDT
+
 
 }

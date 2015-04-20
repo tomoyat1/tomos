@@ -5,9 +5,6 @@
 #ifndef __TABLES__
 #define __TABLES__
 
-#include <stddef.h>
-#include <stdint.h>
-
 typedef struct
 {
 	uint16_t segment_limit_low;	
