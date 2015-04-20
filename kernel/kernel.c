@@ -16,7 +16,7 @@ void multiboot_start()
 {
   //kprint("Booting")
 
-  //TODO: write the linker script so that the kernel gets loaded at the 3GiBmark. Perhaps in asm??
+  //TODO: write the linker script so that the kernel gets loaded at the 3GiBmark. Do initial paging setup in asm BEFORE calling multiboot_start(). 
   //enable paging
   //GDT
 
