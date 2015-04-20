@@ -8,6 +8,7 @@
  */
 
 #include <kernel/tables.h>
+#include <kernel/pages.h>
 //#include <kernel/vga.h>
 //#include <kernel/kprint.h>
 
@@ -15,8 +16,8 @@ void multiboot_start()
 {
   //kprint("Booting")
 
-  //hocus-pocus to relocate kernel at high memory.
-
+  //TODO: write the linker script so that the kernel gets loaded at the 3GiBmark. Perhaps in asm??
+  //enable paging
   //GDT
 
   //IDT
