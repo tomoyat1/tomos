@@ -2,8 +2,10 @@
    tables.h
 */
 
-#ifndef __TABLES__
-#define __TABLES__
+#ifndef _TABLES_H_
+#define _TABLES_H_
+
+#include <stdint.h>
 
 typedef struct
 {

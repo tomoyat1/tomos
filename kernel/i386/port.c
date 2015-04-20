@@ -5,7 +5,6 @@
  *
  */ 
 
-#include <stddef.h>
 #include <stdint.h>
 
 #include <kernel/port.h>
