@@ -12,7 +12,7 @@
 //#include <kernel/vga.h>
 //#include <kernel/kprint.h>
 
-void multiboot_start()
+void start_kernel()
 {
   //kprint("Booting")
 
