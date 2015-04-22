@@ -14,7 +14,7 @@ void outb(uint8_t output, uint16_t port)
 	__asm__ volatile(
 		"outb %0, %1"
 		:
-		: "a"(output), "Nd"(port)	
+		: "r"(output), "Nd"(port)	
 	);
 
 }

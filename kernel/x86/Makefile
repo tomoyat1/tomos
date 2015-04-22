@@ -1,4 +1,4 @@
-all: boot.o port.o tables.o
+all: boot.o port.o pminit.o
 	@echo Building i386
 %.o: %.S
 	$(CC) -c $< -o $@ $(CFLAGS) $(CPPFLAGS)

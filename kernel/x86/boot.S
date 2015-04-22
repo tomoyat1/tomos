@@ -32,20 +32,20 @@ BootPageDirectory:
 .global _loader
 _loader:
 /*Enable paging!!*/
-	movl $BootPageDirectory-KERNEL_VIRT_BASE, %eax
-	movl %eax, %cr3
-	movl %cr4, %eax
-	orl $0x00000010, %eax
-	movl %eax, %cr4
-	movl %cr0, %eax
-	orl $0x80000000, %eax
-	movl %eax, %cr0
-	leal BootPageDirectory, %eax
-	jmp *%eax
+	movl $BootPageDirectory-KERNEL_VIRT_BASE, %ecx
+	movl %ecx, %cr3
+	movl %cr4, %ecx
+	orl $0x00000010, %ecx
+	movl %ecx, %cr4
+	movl %cr0, %ecx
+	orl $0x80000000, %ecx
+	movl %ecx, %cr0
+	leal BootPageDirectory, %ecx
+	jmp *%ecx
 
 _higher_kernel:
-	movl $KERNEL_VIRT_BASE+0x00100000,%eax
-	jmp *%eax 
+	movl $KERNEL_VIRT_BASE+0x00100000,%ecx
+	jmp *%ecx 
 	call _start_kernel
 	/*Shouldn't return*/
 	cli
