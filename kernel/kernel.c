@@ -1,26 +1,53 @@
 /*
  *  kernel.c
- *  Entrypoint for the kernel. multiboot_start() assumes being called from
- *  a Multiboot standard compliant bootloader. (ofc execution starts in 32
- *  bit protected mode.
- *
+ *  Entrypoint for the kernel is  start_kernel() 
+ *  execution starts in 32 bit protected mode.
  *
  */
 
-#include <kernel/tables.h>
+#include <kernel/pminit.h>
 #include <kernel/pages.h>
-//#include <kernel/vga.h>
+#include <kernel/vga.h>
 //#include <kernel/kprint.h>
 
-void start_kernel()
+#include <stdint.h>
+#include <stddef.h>
+
+uint16_t* buffer = (uint16_t *)0xC00B3000;
+
+void panic()
 {
+	for ( size_t y = 0; y < 25; y++ )
+	{
+		for  ( size_t x = 0; y < 80; x++ )
+		{
+			const size_t index = y * 25 + x;
+			buffer[index] = 0x4F20;
+		}
+	}
+
+	buffer[0] = 0x4F50;
+	buffer[1] = 0x4F41;
+	buffer[2] = 0x4F4E;
+	buffer[3] = 0x4F49;
+	buffer[4] = 0x4F43;
+}
+
+void start_kernel(uint32_t mbheader, uint32_t mbmagic)
+{
+	for ( size_t y = 0; y < 25; y++ )
+	{
+		for  ( size_t x = 0; y < 80; x++ )
+		{
+			const size_t count = y * 25 + x;
+			buffer[count] = 0x2F20;
+		}
+	}
   //kprint("Booting")
-
-  //TODO: write the linker script so that the kernel gets loaded at the 3GiBmark. Do initial paging setup in asm BEFORE calling multiboot_start(). 
   //enable paging
-  //GDT
+	pminit();
 
-  //IDT
-
-
+	/*Some time later... execution should've proceeded to the scheduler.
+	PANIC!!*/
+	panic();
 }

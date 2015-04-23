@@ -7,7 +7,8 @@ PREFIX=/usr
 BOOTDIR=/boot
 INCLUDEDIR=$(PREFIX)/include
 
-CC=i686-elf-gcc --sysroot=$(CURDIR)/sysroot -isystem=$(INCLUDEDIR)
+CC:=i686-elf-gcc --sysroot=$(CURDIR)/sysroot -isystem=$(INCLUDEDIR)
+MAKE=make
 export CC CFLAGS CPPFLAGS LDFLAGS PREFIX BOOTDIR INCLUDEDIR LIBS
 
 
@@ -16,7 +17,7 @@ all: kernel
 
 .PHONY: kernel test clean
 kernel:
-	make -C kernel
+	$(MAKE) -C kernel
 
 clean:
-	make clean -C kernel
+	$(MAKE) clean -C kernel

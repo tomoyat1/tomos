@@ -19,8 +19,8 @@
 
 typedef struct
 {
-	uint32_t base;
 	uint16_t limit;	
+	uint32_t base;
 }__attribute__((packed)) gdt_ptr;
 
 void set_gdt(void)
@@ -33,7 +33,7 @@ void set_gdt(void)
 		[3] = GDT_ENTRY(0x0, 0x000100000, 0xC0FB),\
 		[4] = GDT_ENTRY(0x0, 0x000100000, 0xC0F3)
 	};
-	/*static*/ gdt_ptr sysgdt;
+	static gdt_ptr sysgdt;
 	sysgdt.base = (uint32_t)&gdt;
 	sysgdt.limit = (uint16_t)5*8; //hardcoded. Need to change later.
 	__asm__(
@@ -44,4 +44,8 @@ void set_gdt(void)
 }
 
 
-
+void pminit()
+{
+	//GDT
+	//IDT
+}
