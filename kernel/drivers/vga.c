@@ -9,8 +9,6 @@
 #include <stddef.h>
 #include <kernel/vga.h>
 
-#define MAKE_COLOR(fg,bg) \
-(fg | (bg<<4) )
 
 typedef struct 
 {
@@ -22,10 +20,15 @@ typedef struct
 
 terminal_t terminal;
 
-void putcharat(char character, size_t x, size_t y)
+void putentryat(uint16_t entry, size_t x, size_t y)
 {
-	uint16_t entry = terminal.color<< 
-	
+	const size_t index = y * 25 + x;
+	terminal.buffer[index] = entry;	
+}
+
+void setcolor(enum vga_color fg, enum vga_color bg)
+{
+	terminal.color = MAKE_COLOR(fg,bg);
 }
 
 void init_vga()
@@ -33,14 +36,14 @@ void init_vga()
 	terminal.row = 0;
 	terminal.column = 0;
 	setcolor(COLOR_LIGHT_GREY, COLOR_BLACK);
-	terminal.buffer = (uint16_t*)0xC00B3000
+	terminal.buffer = (uint16_t*)0xC00B3000;
 
 	for ( size_t y = 0; y < VGA_HEIGHT; y++ )
 	{
 		for ( size_t x = 0; x < VGA_WIDTH; x++ )
 		{
 		const size_t index = y * VGA_WIDTH + x;
-		terminal.buffer[index] = make_vgaentry(' ', terminal.color);	
+		terminal.buffer[index] = MAKE_ENTRY(' ', terminal.color);	
 		}
 	}
 }

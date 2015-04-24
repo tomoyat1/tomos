@@ -6,7 +6,7 @@
  */
 
 #include <kernel/pminit.h>
-#include <kernel/pages.h>
+#include <kernel/mm.h>
 #include <kernel/vga.h>
 //#include <kernel/kprint.h>
 
@@ -35,14 +35,7 @@ void panic()
 
 void start_kernel(uint32_t mbheader, uint32_t mbmagic)
 {
-	for ( size_t y = 0; y < 25; y++ )
-	{
-		for  ( size_t x = 0; y < 80; x++ )
-		{
-			const size_t count = y * 25 + x;
-			buffer[count] = 0x2F20;
-		}
-	}
+	init_vga();
   //kprint("Booting")
   //enable paging
 	pminit();

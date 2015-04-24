@@ -8,6 +8,12 @@
 .set KERNEL_PAGE_INDEX, KERNEL_VIRT_BASE>>22
 /*index of the 4 MiB page in which the kernel resides*/
 
+.section .MultibootHeader
+.align 4
+.long MAGIC
+.long FLAGS
+.long CHECKSUM
+
 .section .data
 .align 0x1000
 //map phys first page to virt first page after that, map physical first page to virtual page that starts at 0xC0000000
@@ -22,10 +28,10 @@ BootPageDirectory:
 
 .section .text
 MultibootHeader:
-	.align 4
-	.long MAGIC
-	.long FLAGS
-	.long CHECKSUM
+//	.align 4
+//	.long MAGIC
+//	.long FLAGS
+//	.long CHECKSUM
 
 //.set loader, (_loader - 0xC0000000)
 //.global loader
@@ -34,6 +40,7 @@ MultibootHeader:
 .global _loader
 _loader:
 /*Enable paging!!*/
+	//movl $0x4741, 0x000B3000
 	movl $BootPageDirectory-KERNEL_VIRT_BASE, %ecx
 	movl %ecx, %cr3
 
@@ -44,6 +51,10 @@ _loader:
 	movl %cr0, %ecx
 	orl $0x80000000, %ecx
 	movl %ecx, %cr0
+
+	//movl $0x4741, 0x000B3000 
+	//movl $0x4741, 0xC00B3000
+
 
 	leal higher_kernel, %ecx
 	jmp *%ecx

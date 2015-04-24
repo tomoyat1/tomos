@@ -6,6 +6,7 @@ SECTIONS
 	. = 0xC0100000;
 	.text : AT(ADDR(.text) - 0xC0000000)
 	{
+		*(.MultibootHeader)
 		*(.text)
 		*(.rodata*)
 	}

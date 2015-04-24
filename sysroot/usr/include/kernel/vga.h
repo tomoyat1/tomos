@@ -4,9 +4,16 @@
 // vga.h
 
 #include <stddef.h>
+#include <stdint.h>
 
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
+
+#define MAKE_COLOR(fg,bg) \
+(fg | (bg<<4) )
+
+#define MAKE_ENTRY(c,color) \
+(((uint16_t)color<<8)|c)
 
 enum vga_color
 {
@@ -29,7 +36,7 @@ enum vga_color
 };
 
 void init_vga();
-void putcharat(char character, size_t x, size_t y);
+void putentryat(uint16_t entry, size_t x, size_t y);
 void setcolor(enum vga_color fg, enum vga_color bg);
 
 
