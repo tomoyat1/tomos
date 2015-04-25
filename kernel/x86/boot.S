@@ -40,7 +40,6 @@ MultibootHeader:
 .global _loader
 _loader:
 /*Enable paging!!*/
-	//movl $0x4741, 0x000B3000
 	movl $BootPageDirectory-KERNEL_VIRT_BASE, %ecx
 	movl %ecx, %cr3
 
@@ -52,10 +51,6 @@ _loader:
 	orl $0x80000000, %ecx
 	movl %ecx, %cr0
 
-	//movl $0x4741, 0x000B3000 
-	//movl $0x4741, 0xC00B3000
-
-
 	leal higher_kernel, %ecx
 	jmp *%ecx
 
@@ -66,10 +61,12 @@ higher_kernel:
 	pushl %eax
 	addl 0xC0000000, %ebx //make mb info struct address linear.
 	pushl %ebx
+	/*Calling start_kernel leads to paging being disabled. shit*/
+	//hlt
 	call start_kernel
 	/*Shouldn't return*/
-	cli
-	hlt
+//	cli
+//	hlt
 .Lhang:
 	jmp .Lhang
 

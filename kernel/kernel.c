@@ -36,10 +36,11 @@ void panic()
 void start_kernel(uint32_t mbheader, uint32_t mbmagic)
 {
 	init_vga();
-  //kprint("Booting")
-  //enable paging
+	//kprint("Booting")
+	//init GDT 
+	//TODO: DO THIS BEFORE CR0.PE = 1
 	pminit();
-
+	//Do page table setup in C as well
 	/*Some time later... execution should've proceeded to the scheduler.
 	PANIC!!*/
 	panic();
