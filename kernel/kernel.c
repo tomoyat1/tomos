@@ -16,14 +16,7 @@ uint16_t* buffer = (uint16_t *)0xC00B8000;
 
 void panic()
 {
-	for ( size_t y = 0; y < 25; y++ )
-	{
-		for  ( size_t x = 0; x < 80; x++ )
-		{
-			const size_t index = y * 25 + x;
-			buffer[index] = 0x4F20;
-		}
-	}
+	fill_screen_with_color(COLOR_RED);
 }
 void start_kernel(uint32_t mbheader, uint32_t mbmagic)
 {
