@@ -27,12 +27,6 @@ BootPageDirectory:
 //TODO:Once userland init starts, system should use that process's page directory. The page directory of every process should have the kernel mapped to 0xC000000 and above.
 
 .section .text
-MultibootHeader:
-//	.align 4
-//	.long MAGIC
-//	.long FLAGS
-//	.long CHECKSUM
-
 //.set loader, (_loader - 0xC0000000)
 //.global loader
 
@@ -65,8 +59,8 @@ higher_kernel:
 	//hlt
 	call start_kernel
 	/*Shouldn't return*/
-//	cli
-//	hlt
+	cli
+	hlt
 .Lhang:
 	jmp .Lhang
 

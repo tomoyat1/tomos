@@ -47,5 +47,6 @@ void set_gdt(void)
 void pminit()
 {
 	//GDT
+	set_gdt();
 	//IDT
 }

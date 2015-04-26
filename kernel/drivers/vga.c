@@ -36,7 +36,7 @@ void init_vga()
 	terminal.row = 0;
 	terminal.column = 0;
 	setcolor(COLOR_LIGHT_GREY, COLOR_BLACK);
-	terminal.buffer = (uint16_t*)0xC00B3000;
+	terminal.buffer = (uint16_t*)0xC00B8000;
 
 	for ( size_t y = 0; y < VGA_HEIGHT; y++ )
 	{
