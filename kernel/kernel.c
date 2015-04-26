@@ -7,7 +7,7 @@
 
 #include <kernel/pminit.h>
 #include <kernel/vga.h>
-#include <kernel/kprint.h>
+#include <kernel/printk.h>
 
 #include <stdint.h>
 #include <stddef.h>
