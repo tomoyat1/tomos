@@ -12,7 +12,7 @@
 //flags: start at bit 8; bit 0 of input should be bit 8 of second lword
 #define GDT_ENTRY(base, limit, flags)\
  (((base & (uint64_t )0xFF000000) << 32) |\
- ((flags & (uint64_t )0x00F0FF00) << 40) |\
+ ((flags & (uint64_t )0x0000F0FF) << 40) |\
  ((base & (uint64_t )0x00FFFFFF) << 16) |\
  ((limit & (uint64_t )0x000F0000) << 32) |\
  ((limit & (uint64_t )0x0000FFFF) << 0))

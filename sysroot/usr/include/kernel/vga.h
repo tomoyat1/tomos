@@ -38,6 +38,6 @@ enum vga_color
 void init_vga();
 void putentryat(uint16_t entry, size_t x, size_t y);
 void setcolor(enum vga_color fg, enum vga_color bg);
-
+void fill_screen_with_color(enum vga_color bg);
 
 #endif

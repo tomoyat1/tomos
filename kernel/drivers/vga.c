@@ -9,7 +9,6 @@
 #include <stddef.h>
 #include <kernel/vga.h>
 
-
 typedef struct 
 {
 	volatile size_t row;
@@ -22,7 +21,7 @@ terminal_t terminal;
 
 void putentryat(uint16_t entry, size_t x, size_t y)
 {
-	const size_t index = y * 25 + x;
+	const size_t index = y * VGA_WIDTH + x;
 	terminal.buffer[index] = entry;	
 }
 
@@ -48,5 +47,15 @@ void init_vga()
 	}
 }
 
- 
+void fill_screen_with_color(enum vga_color bg) 
+{
+	for ( size_t y = 0; y < VGA_HEIGHT; y++ )
+	{
+		for ( size_t x = 0; x < VGA_WIDTH; x++ )
+		{
+		const size_t index = y * VGA_WIDTH + x;
+		terminal.buffer[index] = MAKE_ENTRY(' ', MAKE_COLOR(0,bg));	
+		}
+	}
+}
 
