@@ -1,7 +1,10 @@
 #ifndef _VGA_H_
 #define _VGA_H_
 
-// vga.h
+/*   vga.h
+ *
+ *   fill_screen_with_color() will reset cursor position to (0,0)
+ */
 
 #include <stddef.h>
 #include <stdint.h>
@@ -36,8 +39,11 @@ enum vga_color
 };
 
 void init_vga();
+
 void putentryat(uint16_t entry, size_t x, size_t y);
+void write_char(char c);
 void setcolor(enum vga_color fg, enum vga_color bg);
+void newline();
 void fill_screen_with_color(enum vga_color bg);
 
 #endif

@@ -37,7 +37,7 @@ void set_gdt(void)
 	sysgdt.base = (uint32_t)&gdt;
 	sysgdt.limit = (uint16_t)5*8; //hardcoded. Need to change later.
 	__asm__(
-	"lgdtl %0"
+	"lgdtl %0;"
 	:
 	:"m"(sysgdt)
 	);
