@@ -1,6 +1,6 @@
 export CC CFLAGS CPPFLAGS LDFLAGS LIBS
 OBJECTS=./*.o ./x86/*.o ./x86/asm/*.o ./lib/*.o ./drivers/*.o
-all: kernel.o x86 lib drivers
+all: kernel.o panic.o x86 lib drivers
 	@echo "Building kernel image"
 	$(CC) -T ./linker.ld -o ../sysroot/boot/kernel -ffreestanding -O2 -nostdlib $(OBJECTS) -lgcc
 

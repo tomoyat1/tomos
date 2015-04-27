@@ -5,21 +5,15 @@
  *
  */
 
-#include <kernel/pminit.h>
-#include <kernel/vga.h>
-#include <kernel/printk.h>
-
 #include <stdint.h>
 #include <stddef.h>
 
-uint16_t* buffer = (uint16_t *)0xC00B8000;
+#include <kernel/pminit.h>
+#include <kernel/vga.h>
+#include <kernel/printk.h>
+#include <kernel/panic.h>
 
-void panic()
-{
-	fill_screen_with_color(COLOR_RED);
-	setcolor(COLOR_LIGHT_GREY, COLOR_RED);
-	printk("KERNEL PANIC!\nREBOOT!!");	
-}
+
 void start_kernel(uint32_t mbheader, uint32_t mbmagic)
 {
 	init_vga();
