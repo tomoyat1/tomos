@@ -23,5 +23,5 @@ void start_kernel(uint32_t *mbheader, uint32_t mbmagic, uint32_t *heap_top)
 
 	/*Some time later... execution should've proceeded to the scheduler.
 	PANIC!!*/
-	//panic();
+	panic();
 }
