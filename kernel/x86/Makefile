@@ -1,4 +1,4 @@
-all: port.o pminit.o asm
+all: port.o pminit.o mm.o asm
 	@echo Building x86
 %.o: %.S
 	$(CC) -c $< -o $@ $(CFLAGS) $(CPPFLAGS)

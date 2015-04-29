@@ -51,9 +51,9 @@ higher_kernel:
 	movl $0, BootPageDirectory	
 	invlpg 0
 	movl $stack_top, %esp
-	pushl $heap_top
+	movl $stack_top, %ebp
 	pushl %eax
-	addl 0xC0000000, %ebx //make mb info struct address linear.
+	addl $KERNEL_VIRT_BASE, %ebx //make mb info struct address linear.
 	pushl %ebx
 	/*Calling start_kernel leads to paging being disabled. shit*/
 	//hlt
@@ -72,9 +72,5 @@ stack_bottom:
 .skip 0x00100000
 stack_top:
 
-.section .kernel_heap
-.global heap_top
-heap_top:
-//gonna crash some day when kernel runs out of vitual memory space....
-//TODO: implement protection against OUT_OF_MEMORY
-
+.global heap
+heap:
