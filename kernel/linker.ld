@@ -18,6 +18,7 @@ SECTIONS
 	{
 		*(COMMON)
 		*(.bss)
+		*(.kenrel_heap)
 	}
 
 

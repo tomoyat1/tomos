@@ -27,11 +27,10 @@ BootPageDirectory:
 //TODO:Once userland init starts, system should use that process's page directory. The page directory of every process should have the kernel mapped to 0xC000000 and above.
 
 .section .text
-//.set loader, (_loader - 0xC0000000)
-//.global loader
 
 .type _loader, @function
 .global _loader
+
 _loader:
 /*Enable paging!!*/
 	movl $BootPageDirectory-KERNEL_VIRT_BASE, %ecx
@@ -52,6 +51,7 @@ higher_kernel:
 	movl $0, BootPageDirectory	
 	invlpg 0
 	movl $stack_top, %esp
+	pushl $heap_top
 	pushl %eax
 	addl 0xC0000000, %ebx //make mb info struct address linear.
 	pushl %ebx
@@ -71,4 +71,10 @@ higher_kernel:
 stack_bottom:
 .skip 0x00100000
 stack_top:
-/*.lcomm, c'mon, why you no work.*/
+
+.section .kernel_heap
+.global heap_top
+heap_top:
+//gonna crash some day when kernel runs out of vitual memory space....
+//TODO: implement protection against OUT_OF_MEMORY
+

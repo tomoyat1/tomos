@@ -14,12 +14,13 @@
 #include <kernel/panic.h>
 
 
-void start_kernel(uint32_t mbheader, uint32_t mbmagic)
+void start_kernel(uint32_t mbheader, uint32_t mbmagic, uint32_t* heap_top)
 {
 	init_vga();
 	printk("Booting");
+	//setup gdt and idt
 	pminit();
-	//Do page table setup in C as well
+
 	/*Some time later... execution should've proceeded to the scheduler.
 	PANIC!!*/
 	panic();
