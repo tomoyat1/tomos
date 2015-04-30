@@ -13,7 +13,7 @@
 #include <stdint.h>
 
 extern char* heap;
-
+//This thing is in .data section. The ones following will be kmalloc'd
 free_mem_t first_free_mem_chunk;
 
 void mminit()
