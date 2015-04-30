@@ -15,9 +15,13 @@ export CC CFLAGS CPPFLAGS LDFLAGS PREFIX BOOTDIR INCLUDEDIR LIBS
 
 all: kernel
 
-.PHONY: kernel test clean
+.PHONY: kernel test clean run
 kernel:
 	$(MAKE) -C kernel
 
 clean:
 	$(MAKE) clean -C kernel
+
+run: all
+	./boot.sh
+

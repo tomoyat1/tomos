@@ -12,7 +12,7 @@
 #include <kernel/vga.h>
 #include <kernel/printk.h>
 #include <kernel/panic.h>
-
+#include <kernel/mm.h>
 
 void start_kernel(uint32_t *mbheader, uint32_t mbmagic, uint32_t *heap_top)
 {
@@ -20,7 +20,8 @@ void start_kernel(uint32_t *mbheader, uint32_t mbmagic, uint32_t *heap_top)
 	printk("Booting\n");
 	//setup gdt and idt
 	pminit();
-
+	
+	mminit();
 	/*Some time later... execution should've proceeded to the scheduler.
 	PANIC!!*/
 	panic();

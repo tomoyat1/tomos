@@ -15,7 +15,7 @@ typedef struct free_mem
 } free_mem_t;
 
 
-void initmm();
+void mminit();
 
 free_mem_t* search_free_mem(size_t bytes);
 #endif
