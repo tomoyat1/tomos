@@ -9,9 +9,9 @@ typedef struct free_mem free_mem_t;
 typedef struct free_mem
 {
 	size_t size;
-	char* start_addr;
-	free_mem_t* next;
-	free_mem_t* prev;
+	char *start_addr;
+	free_mem_t *next;
+	free_mem_t *prev;
 } free_mem_t;
 
 

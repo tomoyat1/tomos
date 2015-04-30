@@ -16,7 +16,7 @@
 #include <kernel/vga.h>
 
 
-void printk(char* string)
+void printk(char *string)
 {
 	for ( size_t i = 0; i < strlen(string); i++ )
 		{

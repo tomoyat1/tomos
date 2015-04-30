@@ -22,7 +22,8 @@ void start_kernel(uint32_t *mbheader, uint32_t mbmagic, uint32_t *heap_top)
 	pminit();
 	
 	mminit();
+	search_free_mem(1);
 	/*Some time later... execution should've proceeded to the scheduler.
 	PANIC!!*/
-	panic();
+	panic("END OF KERNEL CODE");
 }
