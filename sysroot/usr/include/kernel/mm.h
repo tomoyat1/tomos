@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#define CHUNK_SIZE (size_t)0x10
+#define BYTES_TO_CHUNKS(bytes) (bytes / CHUNK_SIZE + 1)
 typedef struct free_mem free_mem_t;
 
 typedef struct free_mem
@@ -17,5 +19,7 @@ typedef struct free_mem
 
 void mminit();
 
-free_mem_t* search_free_mem(size_t bytes);
+free_mem_t* search_free_mem(size_t chunks);
+
+void* get_free_mem_from_block(free_mem_t* mem, size_t bytes);
 #endif

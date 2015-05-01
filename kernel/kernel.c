@@ -10,10 +10,11 @@
 
 #include <kernel/pminit.h>
 #include <kernel/vga.h>
-#include <kernel/printk.h>
 #include <kernel/panic.h>
 #include <kernel/mm.h>
 
+#include <kernel/kmalloc.h>
+#include <kernel/printk.h>
 void start_kernel(uint32_t *mbheader, uint32_t mbmagic, uint32_t *heap_top)
 {
 	init_vga();
@@ -22,7 +23,9 @@ void start_kernel(uint32_t *mbheader, uint32_t mbmagic, uint32_t *heap_top)
 	pminit();
 	
 	mminit();
-	search_free_mem(1);
+	char *ptr_to_char = (char *)kmalloc(sizeof(char[13]));
+	ptr_to_char = "Hello, World\0";
+	printk(ptr_to_char);
 	/*Some time later... execution should've proceeded to the scheduler.
 	PANIC!!*/
 	panic("END OF KERNEL CODE");
