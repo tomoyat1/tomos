@@ -13,10 +13,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include <kernel/kmalloc.h>
 #include <kernel/panic.h>
 
 extern char* heap;
-//This thing is in .data section. The ones following will be kmalloc'd
+//This thing is in .bss section. The ones following will be kmalloc'd
 free_mem_t first_free_mem_block;
 
 void mminit()
@@ -54,4 +55,13 @@ void* get_free_mem_from_block(free_mem_t* mem, size_t chunks)
 	//Solution: Allocate and free memory in 16byte chunks. 
 	mem->start_addr = (char *)((size_t)mem->start_addr + (chunks * CHUNK_SIZE));
 	return (void *)mem->start_addr;
+}
+
+void merge_free_blocks(){
+	free_mem_t *current = &first_free_mem_block;
+	do{
+		if( (char *)((size_t)(current->start_addr) + current->size) == current->next->start_addr ){
+			
+		}
+	}while(current->next!=NULL);
 }
