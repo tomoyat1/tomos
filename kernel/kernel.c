@@ -13,8 +13,8 @@
 #include <kernel/panic.h>
 #include <kernel/mm.h>
 
-#include <kernel/kmalloc.h>
-#include <kernel/printk.h>
+#include <kernel/klib.h>
+#include <kernel/kstring.h>
 void start_kernel(uint32_t *mbheader, uint32_t mbmagic, uint32_t *heap_top)
 {
 	init_vga();
@@ -23,9 +23,13 @@ void start_kernel(uint32_t *mbheader, uint32_t mbmagic, uint32_t *heap_top)
 	pminit();
 	
 	mminit();
-	char *ptr_to_char = (char *)kmalloc(sizeof(char[13]));
-	ptr_to_char = "Hello, World\0";
+	char *ptr_to_char = (char *)kmalloc(sizeof(char[14]));
+	kstrcpy(ptr_to_char, "Hello, World\n");
 	printk(ptr_to_char);
+	char *second_ptr = (char *)kmalloc(sizeof(char[15]));
+	kstrcpy(second_ptr, "Hello, World2\n");
+	printk(second_ptr);
+	__asm__("hlt");
 	/*Some time later... execution should've proceeded to the scheduler.
 	PANIC!!*/
 	panic("END OF KERNEL CODE");

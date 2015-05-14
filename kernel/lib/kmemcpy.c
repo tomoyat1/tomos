@@ -8,7 +8,7 @@
 
 #include <stddef.h>
 
-#include <kernel/kmemcpy.h> 
+#include <kernel/lib/kmemcpy.h> 
 
 void* kmemcpy(void *dest, void *src, size_t num)
 {

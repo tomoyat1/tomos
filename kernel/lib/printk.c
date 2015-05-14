@@ -10,8 +10,8 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include <kernel/printk.h>
-#include <kernel/strlen.h>
+#include <kernel/lib/printk.h>
+#include <kernel/lib/strlen.h>
 
 #include <kernel/vga.h>
 

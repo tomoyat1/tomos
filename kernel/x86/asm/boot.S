@@ -55,8 +55,6 @@ higher_kernel:
 	pushl %eax
 	addl $KERNEL_VIRT_BASE, %ebx //make mb info struct address linear.
 	pushl %ebx
-	/*Calling start_kernel leads to paging being disabled. shit*/
-	//hlt
 	call start_kernel
 	/*Shouldn't return*/
 	cli
@@ -72,5 +70,6 @@ stack_bottom:
 .skip 0x00100000
 stack_top:
 
-.global heap
-heap:
+.global kernel_heap
+.align 0x1000
+kernel_heap:

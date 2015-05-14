@@ -1,4 +1,5 @@
 *.o
-DS_Store
+.DS_Store
 .bak
 .swp
+sysroot/boot

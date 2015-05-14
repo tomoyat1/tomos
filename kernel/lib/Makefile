@@ -1,4 +1,4 @@
-all: kmemcpy.o printk.o strlen.o kmalloc.o
+all: kmemcpy.o printk.o strlen.o kmalloc.o pow.o kstrcpy.o
 	@echo Building lib 
 %.o: %.c
 	$(CC) -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)

@@ -8,13 +8,15 @@
 
 #include <stddef.h>
 
-#include <kernel/kmalloc.h>
+#include <kernel/lib/kmalloc.h>
 
 #include <kernel/mm.h>
 
+extern void *kernel_heap;
+
 void* kmalloc(size_t bytes)
 {
-	free_mem_t* block = search_free_mem(BYTES_TO_CHUNKS(bytes));	
-	void* mem_addr = get_free_mem_from_block(block, BYTES_TO_CHUNKS(bytes)); 
-	return mem_addr;
+	void* block_addr = alloc_free(bytes, &kernel_heap);	
+	return block_addr;
 }
+

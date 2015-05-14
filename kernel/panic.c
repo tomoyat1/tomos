@@ -8,7 +8,7 @@
 
 #include <kernel/panic.h>
 
-#include <kernel/printk.h>
+#include <kernel/klib.h>
 
 void panic(char *message)
 {
