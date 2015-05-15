@@ -9,7 +9,7 @@
 
 #include <stddef.h>
 
-#include <kernel/lib/strlen.h>
+#include <kernel/lib/kstrlen.h>
 
 size_t strlen(char* string)
 {
