@@ -27,20 +27,14 @@ void putentryat(uint16_t entry, size_t x, size_t y)
 
 void write_char(char c)
 {
-	if ( c == '\n' )
-	{
+	if (c == '\n') {
 		newline();
-	}
-	else 
-	{
+	} else {
 		putentryat(MAKE_ENTRY(c,terminal.color), terminal.column, terminal.row);
 
-		if ( terminal.column == VGA_WIDTH )
-		{
+		if (terminal.column == VGA_WIDTH) {
 			newline();
-		}
-		else
-		{
+		} else {
 			terminal.column++;
 		}
 	}
@@ -64,10 +58,8 @@ void init_vga()
 	setcolor(COLOR_LIGHT_GREY, COLOR_BLACK);
 	terminal.buffer = (uint16_t*)0xC00B8000;
 
-	for ( size_t y = 0; y < VGA_HEIGHT; y++ )
-	{
-		for ( size_t x = 0; x < VGA_WIDTH; x++ )
-		{
+	for (size_t y = 0; y < VGA_HEIGHT; y++) {
+		for (size_t x = 0; x < VGA_WIDTH; x++) {
 			putentryat(MAKE_ENTRY(' ', terminal.color), x, y);
 		}
 	}
@@ -75,10 +67,8 @@ void init_vga()
 
 void fill_screen_with_color(enum vga_color bg) 
 {
-	for ( size_t y = 0; y < VGA_HEIGHT; y++ )
-	{
-		for ( size_t x = 0; x < VGA_WIDTH; x++ )
-		{
+	for (size_t y = 0; y < VGA_HEIGHT; y++) {
+		for (size_t x = 0; x < VGA_WIDTH; x++) {
 			putentryat(MAKE_ENTRY(' ', MAKE_COLOR(0,bg)), x, y);
 		}
 	}

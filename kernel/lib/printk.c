@@ -18,8 +18,7 @@
 
 void printk(char *string)
 {
-	for ( size_t i = 0; i < strlen(string); i++ )
-		{
+	for (size_t i = 0; i < strlen(string); i++) {
 			write_char(string[i]);
-		}
+	}
 }

@@ -7,15 +7,11 @@
 
 int pow(int x, int y)
 {
-	if ( y == 0 )
-	{
+	if (y == 0) {
 		return 1;
-	}
-	else
-	{
+	} else {
 		int result = 1;
-		for ( int i = 1; i <= y; i++ )
-		{
+		for (int i = 1; i <= y; i++) {
 			result *=x;
 		}
 		return result;
