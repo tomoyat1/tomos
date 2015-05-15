@@ -1,1 +1,1 @@
-kernel folder. architecture specific code should go in "i386"
+kernel folder. architecture specific code should go in "x86"

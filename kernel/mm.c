@@ -20,14 +20,12 @@ extern void *kernel_heap;
 void mminit()
 {
 	size_t init_num_of_pages = (0xC0800000 - (size_t)&kernel_heap) / 0x1000; //To end of first 2 4MiB pages.
-	for ( uint32_t pages = 0; pages < init_num_of_pages - 1; pages++ )
-	{
+	for (uint32_t pages = 0; pages < init_num_of_pages - 1; pages++) {
 		bitmap_for_page_t *pagemap = (bitmap_for_page_t *)((uint32_t)&kernel_heap + (uint32_t)(0x1000 * pages));
 		pagemap->next_page = (bitmap_for_page_t *)((uint32_t)pagemap + (uint32_t)0x1000);
 
 		//zero out each bitmap except for the first 516 bits, which is the size of bitmap_for_page_t
-		for ( uint32_t i = 0; i < 128; i++ )
-		{
+		for (uint32_t i = 0; i < 128; i++) {
 			pagemap->bitmap[i] = 0;
 		}
 
@@ -36,14 +34,12 @@ void mminit()
 		uint32_t offset = bits % 32;
 
 		//first the 32bit chunks
-		for ( uint32_t i = 0; i < longword; i++ )
-		{
+		for (uint32_t i = 0; i < longword; i++) {
 			pagemap->bitmap[i] = 0xFFFFFFFF;
 		}
 
 		//next the leftovers
-		for ( uint32_t i = 0; i < offset; i++ )
-		{
+		for (uint32_t i = 0; i < offset; i++) {
 			uint32_t mask = 1 << i;
 			pagemap->bitmap[longword] = pagemap->bitmap[longword] | mask;
 		}
@@ -61,18 +57,14 @@ void* alloc_free(size_t size, void *heap_base)
 
 	uint32_t return_addr;
 
-	do
-	{
-		for ( longword = 0; longword < 128; longword++ ) 
-		{
+	do {
+		for (longword = 0; longword < 128; longword++) {
 			//if not all 1s, search for adequate free region.
-			if ( current_page->bitmap[longword] != 0xFFFFFFFF )
-			{
+			if (current_page->bitmap[longword] != 0xFFFFFFFF) {
 				mask = ~(pow(2,size) - 1);
-				for ( shifts = 0; shifts < 31 - size; shifts++ )
-				{
+				for (shifts = 0; shifts < 31 - size; shifts++) {
 					//bitwise or bitmap with mask, then xor that with mask.
-					if ( ((current_page->bitmap[longword] | mask) ^ mask) == 0 )
+					if (((current_page->bitmap[longword] | mask) ^ mask) == 0)
 					{
 						goto DONE;
 					}
@@ -81,7 +73,7 @@ void* alloc_free(size_t size, void *heap_base)
 			}
 		}
 		current_page++;
-	}while( current_page->next_page == NULL );
+	} while(current_page->next_page == NULL);
 	goto ERROR;
 
 DONE:
