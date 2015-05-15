@@ -5,6 +5,5 @@
 #include <kernel/lib/kmemcpy.h>
 #include <kernel/lib/pow.h>
 #include <kernel/lib/printk.h>
-#include <kernel/lib/strlen.h>
 
 #endif

@@ -11,8 +11,8 @@
 #include <stddef.h>
 
 #include <kernel/lib/printk.h>
-#include <kernel/lib/strlen.h>
 
+#include <kernel/kstring.h>
 #include <kernel/vga.h>
 
 
