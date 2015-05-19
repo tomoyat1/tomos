@@ -70,9 +70,15 @@ void free_allocated(void *addr, void *heap_base)
 	target->size = target->size ^ 0x1;
 
 	/* 
-	 * Block merging logic
+	 * Block merging logic. Absorb next into block just freed.
 	 * Might need prev pointer for each bh_t
 	 */
-	if (target->next->size % 2 == 0) 
+	if (target->next->size % 2 == 0) {
 		target->size = target->size + sizeof(bh_t) + target->next->size;
+		if( target->next->next == NULL) {
+			target->next = NULL;
+		} else {
+			target->next = target->next->next;
+		}
+	}
 }
