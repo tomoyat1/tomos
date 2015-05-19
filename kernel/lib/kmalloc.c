@@ -14,9 +14,9 @@
 
 extern void *kernel_heap;
 
-void* kmalloc(size_t bytes)
+void *kmalloc(size_t bytes)
 {
-	void* block_addr = alloc_free(bytes, &kernel_heap);	
+	void *block_addr = alloc_free(bytes, &kernel_heap);
 	return block_addr;
 }
 

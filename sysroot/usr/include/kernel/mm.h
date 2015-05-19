@@ -4,23 +4,24 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define CHUNK_SIZE (size_t)0x10
-#define BYTES_TO_CHUNKS(bytes) (bytes / CHUNK_SIZE + 1)
-
-void mminit();
-
-typedef struct bitmap_for_page bitmap_for_page_t;
-//Should be put at the front of each page.
-typedef struct bitmap_for_page
+typedef struct bh bh_t;
+//bh means block_header. Should be put at the front of each page.
+typedef struct bh 
 {
-	uint32_t bitmap[128];
-	bitmap_for_page_t *next_page;
-} bitmap_for_page_t;
+	size_t size; /*Must be 2-byte alligned, excludes header size*/
+	bh_t *next;
+} bh_t;
+/*
+ *  size must be 2-byte alligned, excludes header size.
+ *  LSB of size represents allocation status, 1 being allocated
+ */
 
-void mminit();
+#define HEADER_SIZE (sizeof(bh_t))
+
+void mminit(void *heap_base);
 
 //return start of free region.
-void* alloc_free(size_t size, void *heap_base);
+void *alloc_free(size_t demand_size, void *heap_base);
 
 void free_allocated(void *addr, void *heap_base);
 
