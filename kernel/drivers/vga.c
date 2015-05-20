@@ -9,15 +9,15 @@
 #include <stddef.h>
 #include <kernel/vga.h>
 
-typedef struct 
+struct terminal_state
 {
 	volatile size_t row;
 	volatile size_t column;
 	volatile uint8_t color;
 	uint16_t* buffer;
-} terminal_t;
+};
 
-terminal_t terminal;
+struct terminal_state terminal;
 
 void putentryat(uint16_t entry, size_t x, size_t y)
 {

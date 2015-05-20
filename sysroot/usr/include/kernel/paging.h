@@ -4,16 +4,16 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-typedef struct page_struct page_struct_t;
+struct page_struct;
 
-typedef struct page_struct
+struct page_struct
 {
 	uint32_t index;
 	bool is_mapped;	
 	uint32_t allocated_bytes[128];
-	page_struct_t *next;
-	page_struct_t *prev;
-} page_struct_t;
+	struct page_struct *next;
+	struct page_struct *prev;
+};
 
 void page_alloc();
 #endif
