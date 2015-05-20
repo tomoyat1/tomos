@@ -4,19 +4,19 @@
 #include <stddef.h>
 #include <stdint.h>
 
-typedef struct bh bh_t;
+struct bh ;
 //bh means block_header. Should be put at the front of each page.
-typedef struct bh 
+struct bh 
 {
 	size_t size; /*Must be 2-byte alligned, excludes header size*/
-	bh_t *next;
-} bh_t;
+	struct bh *next;
+};
 /*
  *  size must be 2-byte alligned, excludes header size.
  *  LSB of size represents allocation status, 1 being allocated
  */
 
-#define HEADER_SIZE (sizeof(bh_t))
+#define HEADER_SIZE (sizeof(struct bh))
 
 void mminit(void *heap_base);
 
