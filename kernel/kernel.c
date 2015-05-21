@@ -8,16 +8,14 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include <kernel/pminit.h>
+#include <kernel/x86/pminit.h>
 #include <kernel/vga.h>
 #include <kernel/panic.h>
 #include <kernel/mm.h>
-#include <kernel/paging.h>
 
 #include <kernel/klib.h>
 #include <kernel/kstring.h>
 
-extern void *kernel_heap;
 
 void start_kernel(int *mbheader, uint32_t mbmagic, uint32_t *heap_top)
 {
@@ -25,9 +23,8 @@ void start_kernel(int *mbheader, uint32_t mbmagic, uint32_t *heap_top)
 	printk("Booting\n");
 	/* setup gdt and idt*/
 	pminit();
-	
-	mminit(&kernel_heap);
-	probe_pages(mbheader);
+	/* initialize memory management */
+	mminit(mbheader);
 	char *ptr_to_char = (char *)kmalloc(sizeof(char[14]));
 	kstrcpy(ptr_to_char, "Hello, World\n");
 	printk(ptr_to_char);

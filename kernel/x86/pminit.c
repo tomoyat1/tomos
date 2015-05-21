@@ -7,9 +7,9 @@
 
 #include <stdint.h>
 
-#include <kernel/pminit.h>
+#include <kernel/x86/pminit.h>
 
-#include <kernel/asm/segsel.h>
+#include <kernel/x86/asm/segsel.h>
 
 //flags: start at bit 8; bit 0 of input should be bit 8 of second lword
 #define GDT_ENTRY(base, limit, flags)\
