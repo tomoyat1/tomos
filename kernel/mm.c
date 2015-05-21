@@ -10,12 +10,22 @@
 #include <stdbool.h>
 
 #include <kernel/panic.h>
-
+#include <kernel/x86/paging.h>
 #include <kernel/klib.h>
+
+extern void *kernel_heap;
 
 /* Heap should be 0x1000 (one page) aligned.*/
 
-void mminit(void *heap_base)
+void mminit(int *mbheader)
+{
+	/* initialize kernel heap */
+	init_heap(&kernel_heap);
+	/* detect memory size and create page structs */
+	probe_pages(mbheader);
+}
+
+void init_heap(void *heap_base)
 {
 	struct bh *first_block = (struct bh *)heap_base;
 	first_block->size = 0xc1000000 - (size_t)heap_base - sizeof(struct bh);

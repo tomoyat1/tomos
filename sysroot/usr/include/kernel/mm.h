@@ -18,7 +18,9 @@ struct bh
 
 #define HEADER_SIZE (sizeof(struct bh))
 
-void mminit(void *heap_base);
+void mminit(int *mbheader);
+
+void init_heap(void *heap_base);
 
 //return start of free region.
 void *alloc_free(size_t demand_size, void *heap_base);

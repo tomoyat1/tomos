@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include <kernel/paging.h>
+#include <kernel/x86/paging.h>
 
 #include <kernel/panic.h>
 #include <kernel/klib.h>
