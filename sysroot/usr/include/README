@@ -1,2 +1,0 @@
-gcc options: --sysroot=dir
-linux kernelでsysrootを使ってないのは、linux上でkernelをコンパイルしている前提だから。
