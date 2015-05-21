@@ -4,17 +4,19 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-struct page_struct;
-
 struct page_struct
 {
-	uint32_t index;
-	bool is_mapped;	
-	uint32_t allocated_bytes[128];
-	struct page_struct *next;
-	struct page_struct *prev;
+	uint32_t phys_addr;
+	uint32_t flags;	
 };
 
-void page_alloc();
+/*
+ * flags:
+ * bit 1: mapped
+ * bit 2: permissions, 1 for kernel, 0 for user.
+ */
+
+void probe_pages(int *mbheader);
+
 #endif
 
