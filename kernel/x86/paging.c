@@ -12,11 +12,6 @@
 #include <kernel/panic.h>
 #include <kernel/klib.h>
 
-/*
- * Get memory map from multiboot loader
- * Make page struct for each 4KiB page.
- */
-
 struct mem_region
 {
 	uint32_t size;
@@ -25,20 +20,20 @@ struct mem_region
 	uint32_t type;
 };
 
+static struct mem_region *mmap_addr;
+static struct page_struct *ps;
+
 void probe_pages(int *mbheader){
 	int mmap_length = mbheader[11];
-	/*Need to adjust mmap address to be higher half.*/
-	struct mem_region *mmap_addr =\
-		    (struct mem_region *)(mbheader[12] + 0xc0000000);
+	mmap_addr = (struct mem_region *)(mbheader[12] + 0xc0000000);
 
 	if (mbheader[0] && 0x40 != 0x40)
 		panic("mmap is not present. Cannot make page list");
 
-	uint32_t max_addr = mmap_addr[mmap_length / 0x18 - 1].base_addr - 1 +\
-		    mmap_addr[mmap_length / 0x18 - 1].length;
+	uint32_t max_addr = mmap_addr[mmap_length / 0x18 - 1].base_addr -\
+		    1 + mmap_addr[mmap_length / 0x18 - 1].length;
 	uint32_t max_pages = max_addr / 0x1000 + 1;
-	struct page_struct *ps =\
-		    (struct page_struct *)kmalloc(sizeof(struct page_struct) *\
+	ps = (struct page_struct *)kmalloc(sizeof(struct page_struct) *\
 		    max_pages);
 	
 	if (ps) {
@@ -48,5 +43,10 @@ void probe_pages(int *mbheader){
 		}
 	} else
 		panic("Failed to allocate memory for page structs");
-
+	
+	for (int i = 0; i < 0xc00; i++)
+		ps[i].flags = 0x3; /* kernel, mapped */
 }
+
+
+/* TODO: Page allocating function. Check availability on map attempt. */

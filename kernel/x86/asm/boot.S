@@ -24,8 +24,7 @@ BootPageDirectory:
 	.long 0x00000083
 	.long 0x00400083
 	.long 0x00800083
-	.long 0x00c00083
-	.skip 1024-KERNEL_PAGE_INDEX-4
+	.skip 1024-KERNEL_PAGE_INDEX-3
 //TODO:Once userland init starts, system should use that process's page directory. The page directory of every process should have the kernel mapped to 0xC000000 and above.
 
 .section .text
