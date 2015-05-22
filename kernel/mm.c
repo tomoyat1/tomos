@@ -28,7 +28,7 @@ void mminit(int *mbheader)
 void init_heap(void *heap_base)
 {
 	struct bh *first_block = (struct bh *)heap_base;
-	first_block->size = 0xc1000000 - (size_t)heap_base - sizeof(struct bh);
+	first_block->size = 0xc0c00000 - (size_t)heap_base - sizeof(struct bh);
 	first_block->next = NULL;
 }
 
