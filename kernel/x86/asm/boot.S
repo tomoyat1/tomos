@@ -68,7 +68,7 @@ higher_kernel:
 .section .bss
 .align 32
 kernel_stack_bottom:
-.skip 0x00001000
+.skip 0x00100000
 .global kernel_stack_top
 kernel_stack_top:
 
