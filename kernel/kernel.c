@@ -33,7 +33,10 @@ void start_kernel(int *mbheader, uint32_t mbmagic, uint32_t *heap_top)
 	printk(second_ptr);
 	kfree(second_ptr);
 	kfree(ptr_to_char);
-	__asm__("hlt");
+	int result = 4 / 0;
+	__asm__(
+	"hlt;;"
+	);
 	/*Some time later... execution should've proceeded to the scheduler.
 	PANIC!!*/
 	panic("END OF KERNEL CODE");
