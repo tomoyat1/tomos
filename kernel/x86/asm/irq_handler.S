@@ -5,8 +5,8 @@ divided_by_zero:
 	lcall $0x8, $divzero
 	popl %edx
 	iret
-.global keyboard
-keyboard:
+.global kbdirq
+kbdirq:
 	lcall $0x8, $keypress
 	popl %edx
 	iret

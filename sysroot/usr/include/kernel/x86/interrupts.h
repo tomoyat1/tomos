@@ -35,6 +35,8 @@ void set_tss();
 
 void set_idt();
 
+void eoi();
+
 void divzero();
 
 #endif

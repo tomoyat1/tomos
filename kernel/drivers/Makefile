@@ -1,4 +1,4 @@
-all: vga.o
+all: vga.o keyboard.o
 	@echo Building drivers 
 %.o: %.S
 	$(CC) -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
