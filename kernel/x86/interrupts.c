@@ -5,8 +5,11 @@
 #include <stdint.h>
 
 #include <kernel/x86/interrupts.h>
+#include <kernel/x86/port.h>
+#include <kernel/x86/apic.h>
 
 #include <kernel/panic.h>
+#include <kernel/klib.h>
 
 #define INTERRUPT(selector, offset, flags)\
  (((selector & (uint64_t )0x0000FFFF) << 16) |\
@@ -17,6 +20,7 @@
 
 extern void *kernel_stack_top;
 extern void *divided_by_zero;
+extern void *keyboard;
 
 struct tss_struct tss;
 
@@ -42,11 +46,12 @@ void set_tss()
 
 void set_idt()
 {
-	static uint64_t idt[] __attribute__((aligned(8))) =
+	static uint64_t idt[0xFF] __attribute__((aligned(8))) =
 	{
 		[0] = 0
 	};
 	idt[0] = INTERRUPT(0x8, (uint32_t)&divided_by_zero, 0x4);
+	idt[0x21] = INTERRUPT(0x8, (uint32_t)&keyboard, 0x4);
 	static struct idt_ptr sysidt;
 	sysidt.base = (uint32_t)&idt;
 	sysidt.limit = (uint16_t)sizeof(idt);
@@ -61,4 +66,10 @@ void set_idt()
 void divzero()
 {
 	panic("divided by zero");
+}
+
+void keypress()
+{
+	printk("key pressed\n");
+	eoi();
 }

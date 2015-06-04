@@ -50,3 +50,4 @@ void probe_pages(int *mbheader){
 
 
 /* TODO: Page allocating function. Check availability on map attempt. */
+/* TODO: Ensure safety of multiboot data structure */
