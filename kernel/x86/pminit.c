@@ -11,6 +11,7 @@
 
 #include <kernel/x86/asm/segsel.h>
 #include <kernel/x86/interrupts.h>
+#include <kernel/x86/apic.h>
 
 //flags: start at bit 8; bit 0 of input should be bit 8 of second lword
 #define GDT_ENTRY(base, limit, flags)\
@@ -59,4 +60,5 @@ void pminit()
 	set_gdt(); /* GDT */
 	set_tss(); /* TSS */
 	set_idt(); /* IDT */
+	initapic();
 }

@@ -16,11 +16,17 @@
 
 .section .data
 .align 0x1000
-//map phys first page to virt first page after that, map physical first page to virtual page that starts at 0xC0000000
-.global BootPageDirectory
-BootPageDirectory:
+/*
+ * Map phys first page to virt first page after that,
+ * map physical first page to virtual page that starts at 0xC0000000
+ * Map memory mapped registers for local and io APICs before
+ * KERNEL_VIRT_BASE
+ */
+.global kernelpagedir
+kernelpagedir:
 	.long 0x00000083
-	.skip (KERNEL_PAGE_INDEX-1)*4	
+	.skip (KERNEL_PAGE_INDEX-1-1)*4
+	.long 0xFEC0009B
 	.long 0x00000083
 	.long 0x00400083
 	.long 0x00800083
@@ -34,7 +40,7 @@ BootPageDirectory:
 
 _loader:
 /*Enable paging!!*/
-	movl $BootPageDirectory-KERNEL_VIRT_BASE, %ecx
+	movl $kernelpagedir-KERNEL_VIRT_BASE, %ecx
 	movl %ecx, %cr3
 
 	movl %cr4, %ecx
@@ -49,7 +55,7 @@ _loader:
 	jmp *%ecx
 
 higher_kernel:
-	movl $0, BootPageDirectory	
+	movl $0, kernelpagedir	
 	invlpg 0
 	movl $kernel_stack_top, %esp
 	movl $kernel_stack_top, %ebp

@@ -33,6 +33,8 @@ struct tss_struct
 
 void set_tss();
 
+void set_idt();
+
 void divzero();
 
 #endif

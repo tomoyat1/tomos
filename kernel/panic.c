@@ -1,8 +1,6 @@
 /*
- *
- *
- *
- *
+ * panic.c
+ * kernel panic
  */
 
 
@@ -16,6 +14,7 @@ void panic(char *message)
 	setcolor(COLOR_LIGHT_GREY, COLOR_RED);
 	printk("KERNEL PANIC!\nSystem halted.\n");	
 	printk(message);
+	printk("\n");
 	__asm__(
 	"cli;"
 	"hlt;"
