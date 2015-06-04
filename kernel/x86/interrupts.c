@@ -20,7 +20,7 @@
 
 extern void *kernel_stack_top;
 extern void *divided_by_zero;
-extern void *keyboard;
+extern void *kbdirq;
 
 struct tss_struct tss;
 
@@ -51,7 +51,7 @@ void set_idt()
 		[0] = 0
 	};
 	idt[0] = INTERRUPT(0x8, (uint32_t)&divided_by_zero, 0x4);
-	idt[0x21] = INTERRUPT(0x8, (uint32_t)&keyboard, 0x4);
+	idt[0x21] = INTERRUPT(0x8, (uint32_t)&kbdirq, 0x4);
 	static struct idt_ptr sysidt;
 	sysidt.base = (uint32_t)&idt;
 	sysidt.limit = (uint16_t)sizeof(idt);
@@ -66,10 +66,4 @@ void set_idt()
 void divzero()
 {
 	panic("divided by zero");
-}
-
-void keypress()
-{
-	printk("key pressed\n");
-	eoi();
 }

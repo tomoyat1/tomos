@@ -9,7 +9,7 @@
 #include <stddef.h>
 
 #include <kernel/x86/pminit.h>
-#include <kernel/x86/keyboard.h>
+#include <kernel/drivers/keyboard.h>
 #include <kernel/vga.h>
 #include <kernel/panic.h>
 #include <kernel/mm.h>
