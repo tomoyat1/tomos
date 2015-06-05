@@ -2,5 +2,8 @@
 .DS_Store
 .bak
 *.swp
-sysroot/boot
 *.vim
+sysroot
+build
+image.sh
+
