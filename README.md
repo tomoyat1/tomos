@@ -63,3 +63,5 @@ To run it, issue the command
 make run
 ```
 
+This will boot the kernel using qemu-system-i386 with the -kernel option. Any multiboot(1) compliant bootloader (such as grub) may be used if desired.
+
