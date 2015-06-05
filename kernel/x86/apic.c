@@ -52,10 +52,21 @@ static inline uint32_t read_ioapic_reg(uint32_t index)
 	return 0;
 }
 
+static inline void write_lapic_reg(uint32_t index, uint32_t value)
+{
+	uint32_t *reg = (uint32_t *)(0xBFE00000 + index);
+	*reg = value;
+}
+
+static inline uint32_t read_lapic_reg(uint32_t index)
+{
+	uint32_t *reg = (uint32_t *)(0xBFE00000 + index);
+	return *reg;
+}
+
 void eoi()
 {
-	uint32_t *eoireg = (uint32_t *)0xBFE000B0;
-	*eoireg = 0x1;
+	write_lapic_reg(0xB0, 0x1);
 }
 
 void initapic()
@@ -79,13 +90,8 @@ void initapic()
 	/* Disable (mask) PIC*/
 	mask_pic();
 
-	/* 
-	 * TODO: Map APIC address space (both local and io)
-	 * to space below kernel (right before 0xc0000000)
-	 */
-
 	/* Get APIC ID for first CPU */
-	uint32_t *apic_id = (uint32_t *)0xBFE00020;
+	uint32_t apic_id = read_lapic_reg(0x20);
 
 	/* Keyboard Interrupt Vector (for INT 1)
 	 * vector: 0x20  <-bits 0:7
@@ -94,15 +100,14 @@ void initapic()
 	 * Destnation Field: APIC ID of first CPU
 	 */
 	write_ioapic_reg(0x12, 0x21);
-	write_ioapic_reg(0x13, (*apic_id << 24) & 0x0F000000);
+	write_ioapic_reg(0x13, (apic_id << 24) & 0x0F000000);
 
 	/* mask mouse input */
 	write_ioapic_reg(0x28, 0x100FF);
-	write_ioapic_reg(0x29, (*apic_id << 24) & 0x0F000000);
+	write_ioapic_reg(0x29, (apic_id << 24) & 0x0F000000);
 
 	/* Spurious Interrupt Vector */
-	uint32_t *spurious_reg = (uint32_t *)0xBFF000F0;
-	*spurious_reg = SPURIOUS_VECTOR + APIC_ENABLE;
+	write_lapic_reg(0xF0, SPURIOUS_VECTOR + APIC_ENABLE);
 	
 	/* enable interrupts */
 	__asm__("sti");
