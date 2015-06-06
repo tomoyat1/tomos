@@ -10,7 +10,7 @@
 
 #include <kernel/x86/pminit.h>
 #include <kernel/drivers/keyboard.h>
-#include <kernel/vga.h>
+#include <kernel/drivers/vga.h>
 #include <kernel/panic.h>
 #include <kernel/mm.h>
 
@@ -28,6 +28,14 @@ void start_kernel(int *mbheader, uint32_t mbmagic, uint32_t *heap_top)
 	mminit(mbheader);
 	/* setup keyboard */
 	kbdinit();
+	for (int i = 0; i < 24; i++) {
+		if (i % 10 == 0)
+			printk("zehn\n");
+		/*else if (i % 3 == 1)
+			printk("eins\n");*/
+		else
+			printk("eins\n");
+	}
 
 	while(1)
 		__asm__( "hlt;");

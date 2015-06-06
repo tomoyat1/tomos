@@ -1,13 +1,11 @@
 /*
- *
  *  vga.c
  *  VGA stuff
- *
  */
 
 #include <stdint.h>
 #include <stddef.h>
-#include <kernel/vga.h>
+#include <kernel/drivers/vga.h>
 
 struct terminal_state
 {
@@ -45,10 +43,35 @@ void setcolor(enum vga_color fg, enum vga_color bg)
 	terminal.color = MAKE_COLOR(fg,bg);
 }
 
+void scroll()
+{
+	/* from line 1 to line 79, move up one */
+	for (int row = 1; row < VGA_HEIGHT; row++) {
+		for (int column = 0; column < VGA_WIDTH; column++) {
+			uint32_t src = row * VGA_WIDTH + column;
+			uint32_t dest = (row - 1) * VGA_WIDTH + column;
+			terminal.buffer[dest] = terminal.buffer[src];
+		}
+	}
+
+	/* Clear last line. TODO:Use putchar  */
+	for (int i = 0; i < VGA_WIDTH; i++) {
+		putentryat(MAKE_ENTRY(' ', terminal.color), i, VGA_WIDTH - 1);
+	}
+
+	/* cursor position  */
+	terminal.row = VGA_HEIGHT - 1;
+	terminal.column = 0;
+
+}
+
 void newline()
 {
 	terminal.column = 0;
-	terminal.row++;
+	if (terminal.row < VGA_HEIGHT - 1)
+		terminal.row++;
+	else
+		scroll();
 }
 
 void init_vga()
@@ -75,4 +98,3 @@ void fill_screen_with_color(enum vga_color bg)
 	terminal.column = 0;
 	terminal.row = 0;
 }
-
