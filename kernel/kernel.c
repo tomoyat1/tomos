@@ -28,13 +28,14 @@ void start_kernel(int *mbheader, uint32_t mbmagic, uint32_t *heap_top)
 	mminit(mbheader);
 	/* setup keyboard */
 	kbdinit();
-	for (int i = 0; i < 24; i++) {
+	printk("Booting\n");
+	for (int i = 0; i < 23; i++) {
 		if (i % 10 == 0)
-			printk("zehn\n");
+			printk("bar\n");
 		/*else if (i % 3 == 1)
 			printk("eins\n");*/
 		else
-			printk("eins\n");
+			printk("foo\n");
 	}
 
 	while(1)
