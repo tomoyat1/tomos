@@ -1,3 +1,7 @@
+/*
+ * keyboard.c
+ * PS/2 keyboard driver
+ */
 #include <kernel/drivers/keyboard.h>
 #include <kernel/klib.h>
 
@@ -13,6 +17,6 @@ void kbdinit()
 
 void keypress()
 {
-	printk("key pressed\n");
+	printk("Key Pressed!\n");
 	eoi();
 }

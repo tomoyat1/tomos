@@ -13,7 +13,7 @@
 #include <kernel/lib/printk.h>
 
 #include <kernel/kstring.h>
-#include <kernel/vga.h>
+#include <kernel/drivers/vga.h>
 
 
 void printk(char *string)
