@@ -16,7 +16,7 @@ struct page_struct
  * bit 2: permissions, 1 for kernel, 0 for user.
  */
 
-void probe_pages(int *mbheader);
+void probe_pages();
 
 #endif
 

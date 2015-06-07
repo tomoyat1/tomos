@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 struct bh ;
-//bh means block_header. Should be put at the front of each page.
+/* bh means block_header. Should be put at the front of each page. */
 struct bh 
 {
 	size_t size; /*Must be 2-byte alligned, excludes header size*/
@@ -18,7 +18,7 @@ struct bh
 
 #define HEADER_SIZE (sizeof(struct bh))
 
-void mminit(int *mbheader);
+void mminit();
 
 void init_heap(void *heap_base);
 
