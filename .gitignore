@@ -3,7 +3,7 @@
 .bak
 *.swp
 *.vim
-sysroot
+sysroot/boot
 build
 image.sh
 

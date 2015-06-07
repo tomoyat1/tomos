@@ -14,15 +14,16 @@
 #include <kernel/klib.h>
 
 extern void *kernel_heap;
+extern uint32_t *mbstruct;
 
 /* Heap should be 0x1000 (one page) aligned.*/
 
-void mminit(int *mbheader)
+void mminit()
 {
 	/* initialize kernel heap */
 	init_heap(&kernel_heap);
 	/* detect memory size and create page structs */
-	probe_pages(mbheader);
+	probe_pages();
 }
 
 void init_heap(void *heap_base)

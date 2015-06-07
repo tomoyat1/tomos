@@ -12,6 +12,8 @@
 #include <kernel/panic.h>
 #include <kernel/klib.h>
 
+extern uint32_t *mbstruct;
+
 struct mem_region
 {
 	uint32_t size;
@@ -23,11 +25,11 @@ struct mem_region
 static struct mem_region *mmap_addr;
 static struct page_struct *ps;
 
-void probe_pages(int *mbheader){
-	int mmap_length = mbheader[11];
-	mmap_addr = (struct mem_region *)(mbheader[12] + 0xc0000000);
+void probe_pages(){
+	int mmap_length = mbstruct[11];
+	mmap_addr = (struct mem_region *)(mbstruct[12] + 0xc0000000);
 
-	if (mbheader[0] && 0x40 != 0x40)
+	if (mbstruct[0] && 0x40 != 0x40)
 		panic("mmap is not present. Cannot make page list");
 
 	uint32_t max_addr = mmap_addr[mmap_length / 0x18 - 1].base_addr -\
