@@ -18,7 +18,7 @@
  ((offset & (uint64_t )0xFFFF0000) << 32) |\
  ((offset & (uint64_t )0x0000FFFF)))
 
-extern void *kernel_stack_top;
+extern void *kernel_stack_bottom;
 extern void *divided_by_zero;
 extern void *kbdirq;
 
@@ -33,7 +33,7 @@ struct idt_ptr
 void set_tss()
 {
 	tss.ss0 = 0x10;
-	tss.esp0 = (uint32_t)&kernel_stack_top;
+	tss.esp0 = (uint32_t)&kernel_stack_bottom;
 	
 	__asm__(
 	"movw $0x28, %%cx;"

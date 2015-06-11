@@ -57,8 +57,8 @@ _loader:
 higher_kernel:
 	movl $0, kernelpagedir	
 	invlpg 0
-	movl $kernel_stack_top, %esp
-	movl $kernel_stack_top, %ebp
+	movl $kernel_stack_bottom, %esp
+	movl $kernel_stack_bottom, %ebp
 	pushl %eax
 	addl $KERNEL_VIRT_BASE, %ebx //make mb info struct address linear.
 	pushl %ebx
@@ -72,11 +72,12 @@ higher_kernel:
 .size _loader, . - _loader
 
 .section .bss
-.align 32
-kernel_stack_bottom:
-.skip 0x00100000
-.global kernel_stack_top
+.align 0x1000
 kernel_stack_top:
+.skip 0x00100000
+.global kernel_stack_bottom
+kernel_stack_bottom:
+.skip 0x8
 
 .global kernel_heap
 .align 0x1000

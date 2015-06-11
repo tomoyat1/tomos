@@ -12,6 +12,7 @@
 #include <kernel/panic.h>
 #include <kernel/klib.h>
 
+extern uint32_t kernelpagedir;
 extern uint32_t *mbstruct;
 
 struct mem_region
@@ -25,8 +26,10 @@ struct mem_region
 static struct mem_region *mmap_addr;
 static struct page_struct *ps;
 
+static uint32_t mmap_length;
+
 void probe_pages(){
-	int mmap_length = mbstruct[11];
+	mmap_length = mbstruct[11];
 	mmap_addr = (struct mem_region *)(mbstruct[12] + 0xc0000000);
 
 	if (mbstruct[0] && 0x40 != 0x40)
@@ -48,8 +51,14 @@ void probe_pages(){
 	
 	for (int i = 0; i < 0xc00; i++)
 		ps[i].flags = 0x3; /* kernel, mapped */
+
+	/* Detect IO mapped memory regions and flag them as so */
+	
 }
 
-
+void page_alloc()
+{
+	
+}
 /* TODO: Page allocating function. Check availability on map attempt. */
 /* TODO: Ensure safety of multiboot data structure */

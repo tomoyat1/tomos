@@ -3,5 +3,5 @@
 
 #include <stddef.h>
 
-void* kmalloc(size_t bytes);
+void *kmalloc(size_t bytes);
 #endif

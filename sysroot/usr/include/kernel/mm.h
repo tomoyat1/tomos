@@ -5,9 +5,11 @@
 #include <stdint.h>
 
 struct bh ;
-/* bh means block_header. Should be put at the front of each page. */
-struct bh 
-{
+/*
+ * bh means block_header. Should be put at the front of each 
+ * dynamically allocated memory block. 
+ */
+struct bh {
 	size_t size; /*Must be 2-byte alligned, excludes header size*/
 	struct bh *next;
 };
@@ -21,6 +23,8 @@ struct bh
 void mminit();
 
 void init_heap(void *heap_base);
+
+void add_heap(void *heap_base);
 
 //return start of free region.
 void *alloc_free(size_t demand_size, void *heap_base);
