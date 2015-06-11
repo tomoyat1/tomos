@@ -12,11 +12,14 @@ struct page_struct
 
 /*
  * flags:
- * bit 1: mapped
+ * bit 1: paged in
  * bit 2: permissions, 1 for kernel, 0 for user.
+ * bit 3: io mapped
  */
 
 void probe_pages();
+
+void page_page();
 
 #endif
 

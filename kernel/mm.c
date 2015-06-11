@@ -4,6 +4,7 @@
  */
 
 #include <kernel/mm.h>
+#include <kernel/proc.h>
 
 #include <stddef.h>
 #include <stdint.h>
@@ -15,6 +16,7 @@
 
 extern void *kernel_heap;
 extern uint32_t *mbstruct;
+extern struct proc_struct *kernel_thread;
 
 /* Heap should be 0x1000 (one page) aligned.*/
 
@@ -24,6 +26,8 @@ void mminit()
 	init_heap(&kernel_heap);
 	/* detect memory size and create page structs */
 	probe_pages();
+	/* Set top of heap in kernel proc struct  */
+	kernel_thread->proc_heap = (struct bh *)&kernel_heap;
 }
 
 void init_heap(void *heap_base)
@@ -31,6 +35,11 @@ void init_heap(void *heap_base)
 	struct bh *first_block = (struct bh *)heap_base;
 	first_block->size = 0xc0c00000 - (size_t)heap_base - sizeof(struct bh);
 	first_block->next = NULL;
+}
+
+void add_heap(void *heap_base)
+{
+	
 }
 
 void *alloc_free(size_t demand_size, void *heap_base)
