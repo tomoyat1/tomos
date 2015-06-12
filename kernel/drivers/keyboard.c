@@ -5,7 +5,7 @@
 #include <kernel/drivers/keyboard.h>
 #include <kernel/klib.h>
 
-#include <kernel/x86/interrupts.h>
+#include <kernel/x86/apic.h>
 #include <kernel/x86/port.h>
 
 void kbdinit()
@@ -18,5 +18,5 @@ void kbdinit()
 void keypress()
 {
 	printk("Key Pressed!\n");
-	eoi();
+	apic_eoi();
 }

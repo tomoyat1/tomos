@@ -3,6 +3,6 @@
 
 void initapic();
 
-void eoi();
+void apic_eoi();
 
 #endif

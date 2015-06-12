@@ -7,6 +7,7 @@
 #include <kernel/x86/interrupts.h>
 #include <kernel/x86/port.h>
 #include <kernel/x86/apic.h>
+#include <kernel/x86/pit.h>
 
 #include <kernel/panic.h>
 #include <kernel/klib.h>
@@ -21,6 +22,7 @@
 extern void *kernel_stack_bottom;
 extern void *divided_by_zero;
 extern void *kbdirq;
+extern void *pitirq;
 
 struct tss_struct tss;
 
@@ -51,6 +53,7 @@ void set_idt()
 		[0] = 0
 	};
 	idt[0] = INTERRUPT(0x8, (uint32_t)&divided_by_zero, 0x4);
+	idt[0x20] = INTERRUPT(0x8, (uint32_t)&pitirq, 0x4);
 	idt[0x21] = INTERRUPT(0x8, (uint32_t)&kbdirq, 0x4);
 	static struct idt_ptr sysidt;
 	sysidt.base = (uint32_t)&idt;
@@ -61,6 +64,11 @@ void set_idt()
 	:
 	:"m"(sysidt)
 	);
+}
+
+void pic_eoi()
+{
+	outb(0x20, 0x20);
 }
 
 void divzero()
