@@ -34,7 +34,7 @@ static inline void remap_pic()
 
 static inline void mask_pic()
 {
-	outb(0xff, PIC1_DATA);
+	outb(0xfe, PIC1_DATA);
 	outb(0xff, PIC2_DATA);
 }
 
@@ -64,7 +64,7 @@ static inline uint32_t read_lapic_reg(uint32_t index)
 	return *reg;
 }
 
-void eoi()
+void apic_eoi()
 {
 	write_lapic_reg(0xB0, 0x1);
 }
@@ -93,12 +93,9 @@ void initapic()
 	/* Get APIC ID for first CPU */
 	uint32_t apic_id = read_lapic_reg(0x20);
 
-	/* Keyboard Interrupt Vector (for INT 1)
-	 * vector: 0x20  <-bits 0:7
-	 * DELMOD: 0b000 <-bits 8:10
-	 * DESTMOD: 0    <-bit 11
-	 * Destnation Field: APIC ID of first CPU
-	 */
+	write_ioapic_reg(0x10, 0x20);
+	write_ioapic_reg(0x11, (apic_id << 24) & 0x0F000000);
+
 	write_ioapic_reg(0x12, 0x21);
 	write_ioapic_reg(0x13, (apic_id << 24) & 0x0F000000);
 

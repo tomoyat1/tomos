@@ -9,6 +9,7 @@
 #include <stddef.h>
 
 #include <kernel/x86/pminit.h>
+#include <kernel/x86/pit.h>
 #include <kernel/drivers/keyboard.h>
 #include <kernel/drivers/vga.h>
 #include <kernel/panic.h>
@@ -38,6 +39,9 @@ void start_kernel(uint32_t *sysmbstruct, uint32_t mbmagic, uint32_t *heap_top)
 
 	/* setup keyboard */
 	kbdinit();
+
+	prime_pit(10);
+	fire_pit();
 
 	while(1)
 		__asm__( "hlt;");
