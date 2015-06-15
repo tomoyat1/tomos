@@ -1,6 +1,8 @@
 #ifndef _INTERRUPTS_H_
 #define _INTERRUPTS_h_
 
+#include <kernel/x86/port.h>
+
 struct tss_struct
 {
 	uint32_t prev_task_link;
@@ -35,7 +37,10 @@ void set_tss();
 
 void set_idt();
 
-void pic_eoi();
+static inline void pic_eoi()
+{
+	outb(0x20, 0x20);
+}
 
 void divzero();
 

@@ -66,11 +66,6 @@ void set_idt()
 	);
 }
 
-void pic_eoi()
-{
-	outb(0x20, 0x20);
-}
-
 void divzero()
 {
 	panic("divided by zero");

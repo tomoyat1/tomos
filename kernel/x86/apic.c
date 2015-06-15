@@ -6,8 +6,10 @@
 #include <kernel/x86/apic.h>
 
 #include <kernel/x86/port.h>
+#include <kernel/x86/interrupts.h>
 #include <kernel/panic.h>
 #include <kernel/klib.h>
+
 
 #define PIC1_CMD 0x20
 #define PIC2_CMD 0xa0
@@ -108,4 +110,12 @@ void initapic()
 	
 	/* enable interrupts */
 	__asm__("sti");
+
+	/* APIC timer initialization */
+}
+
+void apic_timer_init()
+{
+	printk("Fired\n");
+	pic_eoi();
 }
