@@ -5,14 +5,31 @@ divided_by_zero:
 	lcall $0x8, $divzero
 	popl %edx
 	iret
+
 .global kbdirq
 kbdirq:
 	lcall $0x8, $keypress
 	popl %edx
 	iret
+
 .global pitirq
 pitirq:
-	lcall  $0x8, $pit_handler
+	movb $0xC2, %al
+	movw $0x43, %dx
+	outb %al, %dx
+	movw $0x40, %dx
+	inb %dx, %al
+	andb $0x3E, %al
+	cmpb $0x30, %al
+	je int_on_term_count
+	jmp square_gen
+
+int_on_term_count:
+	lcall $0x8, $apic_timer_init
 	popl %edx
 	iret
 
+square_gen:
+	lcall  $0x8, $inc_sys_clock
+	popl %edx
+	iret

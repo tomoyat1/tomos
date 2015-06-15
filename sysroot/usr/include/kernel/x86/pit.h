@@ -7,4 +7,7 @@ void prime_pit(uint32_t time);
 
 void fire_pit();
 
+void square_pit();
+
+void pit_handler();
 #endif
