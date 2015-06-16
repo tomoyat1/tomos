@@ -9,5 +9,5 @@ void fire_pit();
 
 void square_pit();
 
-void pit_handler();
+void oneshot_handler();
 #endif

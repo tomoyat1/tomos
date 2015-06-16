@@ -7,8 +7,12 @@
 
 #include <kernel/x86/port.h>
 #include <kernel/x86/interrupts.h>
+#include <kernel/x86/pit.h>
 #include <kernel/panic.h>
 #include <kernel/klib.h>
+
+#include <stdint.h>
+#include <stdbool.h>
 
 
 #define PIC1_CMD 0x20
@@ -18,6 +22,8 @@
 
 #define SPURIOUS_VECTOR 0xFF
 #define APIC_ENABLE (0x1 << 8)
+
+extern bool pit_oneshot_done;
 
 static inline void remap_pic()
 {
@@ -71,6 +77,16 @@ void apic_eoi()
 	write_lapic_reg(0xB0, 0x1);
 }
 
+void apic_timer_init()
+{
+	prime_pit(10);
+
+	fire_pit();
+	while (!pit_oneshot_done)
+		continue;
+
+}
+
 void initapic()
 {
 	/* Remap PIC */
@@ -112,10 +128,5 @@ void initapic()
 	__asm__("sti");
 
 	/* APIC timer initialization */
-}
-
-void apic_timer_init()
-{
-	printk("Fired\n");
-	pic_eoi();
+	apic_timer_init();
 }
