@@ -82,7 +82,7 @@ void apic_timer_init()
 	prime_pit(10);
 
 	fire_pit();
-	while (!pit_oneshot_done)
+	while (!is_oneshot_done())
 		continue;
 
 }

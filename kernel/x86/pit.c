@@ -40,7 +40,7 @@ void fire_pit()
 
 void square_pit(uint32_t time)
 {
-	count = 1192 * time;
+	count = 1193 * time;
 	if (count >= 65536)
 		panic("Count for PIT too large.");
 
