@@ -25,7 +25,7 @@ pitirq:
 	jmp square_gen
 
 int_on_term_count:
-	lcall $0x8, $apic_timer_init
+	lcall $0x8, $oneshot_handler
 	popl %edx
 	iret
 
