@@ -41,8 +41,8 @@ void start_kernel(uint32_t *sysmbstruct, uint32_t mbmagic, uint32_t *heap_top)
 	/* setup keyboard */
 	kbdinit();
 
-	square_pit(1);
-	while (1) {
+	//square_pit(1);
+	 while (1) {
 		wait(1000);
 		printk("Timer ended\n");
 	}

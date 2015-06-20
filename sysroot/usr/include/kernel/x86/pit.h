@@ -14,7 +14,7 @@ void square_pit();
 
 void oneshot_handler();
 
-static inline void is_oneshot_done()
+static inline bool is_oneshot_done()
 {
 	return pit_oneshot_done;
 }

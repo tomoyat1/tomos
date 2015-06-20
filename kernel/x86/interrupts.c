@@ -23,6 +23,7 @@ extern void *kernel_stack_bottom;
 extern void *divided_by_zero;
 extern void *kbdirq;
 extern void *pitirq;
+extern void *apic_timer_irq;
 
 struct tss_struct tss;
 
@@ -55,6 +56,7 @@ void set_idt()
 	idt[0] = INTERRUPT(0x8, (uint32_t)&divided_by_zero, 0x4);
 	idt[0x20] = INTERRUPT(0x8, (uint32_t)&pitirq, 0x4);
 	idt[0x21] = INTERRUPT(0x8, (uint32_t)&kbdirq, 0x4);
+	idt[0x22] = INTERRUPT(0x8, (uint32_t)&apic_timer_irq, 0x4);
 	static struct idt_ptr sysidt;
 	sysidt.base = (uint32_t)&idt;
 	sysidt.limit = (uint16_t)sizeof(idt);
