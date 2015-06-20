@@ -7,8 +7,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include <kernel/x86/paging.h>
-
+#include <kernel/x86/paging.h> 
 #include <kernel/panic.h>
 #include <kernel/klib.h>
 
@@ -48,7 +47,6 @@ void probe_pages(){
 		}
 	} else
 		panic("Failed to allocate memory for page structs");
-	
 	for (int i = 0; i < 0xc00; i++)
 		ps[i].flags = 0x3; /* kernel, mapped */
 

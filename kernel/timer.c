@@ -13,7 +13,6 @@ uint32_t sys_clock = 0;
 void inc_sys_clock()
 {
 	sys_clock += 1;
-	pic_eoi();
 }
 
 /* TODO: Eventually make this a sched function */

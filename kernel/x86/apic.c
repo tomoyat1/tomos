@@ -5,9 +5,13 @@
 
 #include <kernel/x86/apic.h>
 
+#include <kernel/timer.h>
+
+
 #include <kernel/x86/port.h>
 #include <kernel/x86/interrupts.h>
 #include <kernel/x86/pit.h>
+
 #include <kernel/panic.h>
 #include <kernel/klib.h>
 
@@ -22,6 +26,8 @@
 
 #define SPURIOUS_VECTOR 0xFF
 #define APIC_ENABLE (0x1 << 8)
+
+#define APIC_TIME_DIVISOR 0x3
 
 extern bool pit_oneshot_done;
 
@@ -81,10 +87,24 @@ void apic_timer_init()
 {
 	prime_pit(10);
 
+	/* APIC timer divisor: 16  */
+	write_lapic_reg(0x3E0, APIC_TIME_DIVISOR);
+	write_lapic_reg(0x380, 0xFFFFFFFF);
 	fire_pit();
 	while (!is_oneshot_done())
 		continue;
 
+	uint32_t ticks_in_10ms = 0xFFFFFFFF - read_lapic_reg(0x390);
+	uint32_t timer_count = ticks_in_10ms / 10;
+	write_lapic_reg(0x320, 0x20022);
+	write_lapic_reg(0x3E0, APIC_TIME_DIVISOR);
+	write_lapic_reg(0x380, timer_count);
+}
+
+void apic_timer_handler()
+{
+	inc_sys_clock();
+	apic_eoi();
 }
 
 void initapic()

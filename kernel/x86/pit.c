@@ -2,6 +2,7 @@
 
 #include <kernel/panic.h>
 #include <kernel/klib.h>
+#include <kernel/timer.h>
 
 #include <kernel/x86/port.h>
 #include <kernel/x86/interrupts.h>
@@ -56,5 +57,11 @@ void square_pit(uint32_t time)
 void oneshot_handler()
 {
 	pit_oneshot_done = true;
+	pic_eoi();
+}
+
+void square_handler()
+{
+	inc_sys_clock();
 	pic_eoi();
 }

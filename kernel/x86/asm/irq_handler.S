@@ -30,6 +30,12 @@ int_on_term_count:
 	iret
 
 square_gen:
-	lcall  $0x8, $inc_sys_clock
+	lcall  $0x8, $square_handler
+	popl %edx
+	iret
+
+.global apic_timer_irq
+apic_timer_irq:
+	lcall $0x8, $apic_timer_handler
 	popl %edx
 	iret
