@@ -45,33 +45,38 @@ void add_heap(void *heap_base)
 void *alloc_free(size_t demand_size, void *heap_base)
 {
 	struct bh *current = (struct bh *)heap_base;
+	struct bh *old_next = current->next;
+
 	size_t alloc_size = demand_size + (demand_size % 2);
+	size_t alloc_size_w_bh = alloc_size + HEADER_SIZE;
 
 	do {
-		if ((current->size >= alloc_size) &&( current->size % 2 == 0))
-			goto FOUND;
-		else {
-			if (current->next == NULL)
-				goto FAIL;
-			else
-				current = current->next;
-		}
+		if (current->size == alloc_size)
+			goto FOUND_EXACT;
+		else if (current->size >= alloc_size_w_bh\
+					&& current->size % 2 == 0)
+			goto FOUND_GREATER;
+		else if (current->next == NULL)
+			goto FAIL;
+		else 
+			current = current->next;
+
 	} while(true);
 
 FAIL:
 	return NULL;
 
-FOUND:
-	if (alloc_size == current->size) {
-		current->size = current->size ^ 0x1;
-	} else {
-		current->next = (struct bh *)((char *)current + \
-		    HEADER_SIZE + alloc_size);
-		current->next->size = current->size - alloc_size - \
-		    HEADER_SIZE;
-		current->size = alloc_size ^ 0x1;
+FOUND_EXACT:
+	current->size = current->size - 1;
+
+FOUND_GREATER:
+	current->next = (struct bh *)((char *)current + alloc_size_w_bh);
+	current->next->size = current->size - alloc_size_w_bh;
+	current->size = alloc_size - 1;
+	if (!old_next)
 		current->next->next = NULL;
-	}
+	else
+		current->next->next = old_next;
 
 	return (char *)current + HEADER_SIZE;
 
@@ -85,16 +90,16 @@ void free_allocated(void *addr, void *heap_base)
 	 * Match addr with start_addr in each allocated block, get position
 	 * of size, and set free bit to 0.
 	 */
-	size_t target_addr = (size_t)addr - sizeof(struct bh);
+	size_t target_addr = (size_t)addr - HEADER_SIZE;
 	struct bh *target = (struct bh *)target_addr;
-	target->size = target->size ^ 0x1;
+	target->size = target->size + 1;
 
 	/* 
 	 * Block merging logic. Absorb next into block just freed.
 	 * Might need prev pointer for each struct bh
 	 */
 	if (target->next->size % 2 == 0) {
-		target->size = target->size + sizeof(struct bh) + target->next->size;
+		target->size = target->size + HEADER_SIZE + target->next->size;
 		if( target->next->next == NULL) {
 			target->next = NULL;
 		} else {
