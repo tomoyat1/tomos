@@ -74,6 +74,9 @@ struct page_struct * page_alloc_free(size_t contiguous)
 	}
 	return NULL;
 FOUND:
+	for (int i = 0; i < contiguous; i++) {
+		ps[fp + i].flags = ps[fp + i].flags | 0x1;
+	}
 	return (ps + fp);
 }
 
