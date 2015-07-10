@@ -11,7 +11,7 @@
 #include <stdbool.h>
 
 #include <kernel/panic.h>
-#include <kernel/x86/paging.h>
+#include <kernel/page_alloc.h>
 #include <kernel/klib.h>
 
 extern void *kernel_heap;
