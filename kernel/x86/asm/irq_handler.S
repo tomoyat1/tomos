@@ -6,6 +6,11 @@ divided_by_zero:
 	popl %edx
 	iret
 
+.global double_fault
+	lcall $0x8, $double_fault_panic
+	popl %edx
+	iret
+
 .global kbdirq
 kbdirq:
 	lcall $0x8, $keypress
