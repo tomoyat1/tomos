@@ -15,7 +15,7 @@ export CC CFLAGS CPPFLAGS LDFLAGS PREFIX BOOTDIR INCLUDEDIR LIBS
 
 all: kernel
 
-.PHONY: kernel clean run
+.PHONY: kernel clean run dump
 kernel:
 	$(MAKE) -C kernel
 
@@ -24,3 +24,6 @@ clean:
 
 run: all
 	./boot.sh
+
+dump: all
+	i686-elf-objdump -d sysroot/boot/kernel | less
