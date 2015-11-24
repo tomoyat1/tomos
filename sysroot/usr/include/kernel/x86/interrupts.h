@@ -44,4 +44,5 @@ static inline void pic_eoi()
 
 void divzero();
 
+void double_fault_panic();
 #endif

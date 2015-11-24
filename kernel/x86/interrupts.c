@@ -54,6 +54,7 @@ void set_idt()
 		[0] = 0
 	};
 	idt[0] = INTERRUPT(0x8, (uint32_t)&divided_by_zero, 0x4);
+	idt[0xd] = INTERRUPT(0x8, (uint32_t)&double_fault_panic, 0x4);
 	idt[0x20] = INTERRUPT(0x8, (uint32_t)&pitirq, 0x4);
 	idt[0x21] = INTERRUPT(0x8, (uint32_t)&kbdirq, 0x4);
 	idt[0x22] = INTERRUPT(0x8, (uint32_t)&apic_timer_irq, 0x4);
@@ -71,4 +72,9 @@ void set_idt()
 void divzero()
 {
 	panic("divided by zero");
+}
+
+void double_fault_panic()
+{
+	__asm__("cli;hlt");;
 }
