@@ -5,4 +5,7 @@
 
 void printk(char* string);
 
+void printint(int n);
+
+void printaddr(int n);
 #endif
