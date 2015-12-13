@@ -26,17 +26,20 @@ uint32_t *mbstruct;
 
 struct bh *kernel_thread = (struct bh *)&kernel_stack_bottom;
 
-void start_kernel(uint32_t *sysmbstruct, uint32_t mbmagic, uint32_t *heap_top)
+void start_kernel(uint32_t *sysmbstruct, uint32_t mbmagic, uint32_t *heap_bottom)
 {
 	mbstruct = sysmbstruct;
 	init_vga();
 	printk("Booting\n");
+	printk("kernel_stack_bottom: ");
+	printaddr((int)&kernel_stack_bottom);
+	printk("\n");
 
 	kernel_thread->next = NULL;
 	/* setup gdt and interrupts */
 	pminit();
 	/* initialize memory management */
-	mminit();
+	mminit(heap_bottom);
 
 	/* setup keyboard */
 	kbdinit();
@@ -44,7 +47,11 @@ void start_kernel(uint32_t *sysmbstruct, uint32_t mbmagic, uint32_t *heap_top)
 	//square_pit(1);
 	 while (1) {
 		wait(1000);
-		printk("Timer ended\n");
+		printk("foo");
+		if (kmalloc(0x100000))
+			printk("Timer ended\n");
+		else
+			printk("Out of memory\n");
 	}
 
 	while(1)

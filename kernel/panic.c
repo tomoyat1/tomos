@@ -10,6 +10,7 @@
 
 void panic(char *message)
 {
+	__asm__("cli;hlt;");
 	fill_screen_with_color(COLOR_RED);
 	setcolor(COLOR_LIGHT_GREY, COLOR_RED);
 	printk("KERNEL PANIC!\nSystem halted.\n");	

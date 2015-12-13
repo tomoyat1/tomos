@@ -22,7 +22,7 @@
  * Map memory mapped registers for local and io APICs before
  * KERNEL_VIRT_BASE
  */
-.global kernelpagedir
+.globl kernelpagedir
 kernelpagedir:
 	.long 0x00000083
 	.skip (KERNEL_PAGE_INDEX-1-1)*4
@@ -36,7 +36,7 @@ kernelpagedir:
 .section .text
 
 .type _loader, @function
-.global _loader
+.globl _loader
 
 _loader:
 /*Enable paging!!*/
@@ -55,10 +55,12 @@ _loader:
 	jmp *%ecx
 
 higher_kernel:
-	movl $0, kernelpagedir	
+	movl $0, kernelpagedir
 	invlpg 0
 	movl $kernel_stack_bottom, %esp
 	movl $kernel_stack_bottom, %ebp
+	leal kernel_heap, %ecx
+	pushl %ecx
 	pushl %eax
 	addl $KERNEL_VIRT_BASE, %ebx //make mb info struct address linear.
 	pushl %ebx
@@ -74,11 +76,11 @@ higher_kernel:
 .section .bss
 .align 0x1000
 kernel_stack_top:
-.skip 0x00001000
-.global kernel_stack_bottom
+.skip 0x00100000
+.globl kernel_stack_bottom
 kernel_stack_bottom:
 .skip 0x8
 
-.global kernel_heap
 .align 0x1000
+.globl kernel_heap
 kernel_heap:

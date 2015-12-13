@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 struct page_struct;
 
@@ -21,6 +22,6 @@ struct page_struct {
 
 void probe_pages();
 
-struct page_struct * page_rq(); 
+struct page_struct * page_alloc(size_t contiguous); 
 
 #endif

@@ -60,8 +60,7 @@ void set_idt()
 	idt[0x22] = INTERRUPT(0x8, (uint32_t)&apic_timer_irq, 0x4);
 	static struct idt_ptr sysidt;
 	sysidt.base = (uint32_t)&idt;
-	sysidt.limit = (uint16_t)sizeof(idt);
-
+	sysidt.limit = (uint16_t)sizeof(idt); 
 	__asm__(
 	"lidtl %0;"
 	:
@@ -76,5 +75,5 @@ void divzero()
 
 void double_fault_panic()
 {
-	__asm__("cli;hlt");;
+	__asm__("cli;hlt;");;
 }
