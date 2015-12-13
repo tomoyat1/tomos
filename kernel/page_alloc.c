@@ -56,28 +56,3 @@ void probe_pages(){
 	
 }
 
-struct page_struct * page_alloc_free(size_t contiguous)
-{
-	int fp;
-	for (fp = 0; ps[fp].next != NULL; fp++) {
-		if ((ps[fp].flags & 0x1) == 0x1) {
-			bool is_sufficient = true;
-			for (int j = fp + 1; j < fp + contiguous; fp++) {
-				if ((ps[fp].flags & 0x1) != 0x1) {
-					is_sufficient = false;
-					break;
-				}
-			}
-			if (is_sufficient)
-				goto FOUND;
-		}
-	}
-	return NULL;
-FOUND:
-	for (int i = 0; i < contiguous; i++) {
-		ps[fp + i].flags = ps[fp + i].flags | 0x1;
-	}
-	return (ps + fp);
-}
-
-/* TODO: Ensure safety of multiboot data structure */
