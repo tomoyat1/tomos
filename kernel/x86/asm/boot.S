@@ -78,7 +78,3 @@ kernel_stack_top:
 .global kernel_stack_bottom
 kernel_stack_bottom:
 .skip 0x8
-
-.global kernel_heap
-.align 0x1000
-kernel_heap:
