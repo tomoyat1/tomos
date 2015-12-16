@@ -4,15 +4,6 @@
 #include <stddef.h>
 #include <stdint.h>
 
-struct bh ;
-/*
- * bh means block_header. Should be put at the front of each 
- * dynamically allocated memory block. 
- */
-struct bh {
-	size_t size; /*Must be 2-byte alligned, excludes header size*/
-	struct bh *next;
-};
 /*
  *  size must be 2-byte alligned, excludes header size.
  *  LSB of size represents allocation status, 1 being allocated
@@ -26,9 +17,5 @@ void init_heap(void *heap_base);
 
 void add_heap(void *heap_base);
 
-//return start of free region.
-void *alloc_free(size_t demand_size, void *heap_base);
-
-void free_allocated(void *addr, void *heap_base);
-
+void *kmalloc(size_t bytes);
 #endif

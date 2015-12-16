@@ -24,7 +24,7 @@ extern void *kernel_stack_bottom;
 
 uint32_t *mbstruct;
 
-struct bh *kernel_thread = (struct bh *)&kernel_stack_bottom;
+struct proc_struct *kernel_thread = (struct proc_struct *)&kernel_stack_bottom;
 
 void start_kernel(uint32_t *sysmbstruct, uint32_t mbmagic)
 {
