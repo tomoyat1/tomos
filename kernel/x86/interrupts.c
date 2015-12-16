@@ -24,6 +24,7 @@ extern void *divided_by_zero;
 extern void *kbdirq;
 extern void *pitirq;
 extern void *apic_timer_irq;
+extern void *page_fault;
 
 struct tss_struct tss;
 
@@ -54,6 +55,7 @@ void set_idt()
 		[0] = 0
 	};
 	idt[0] = INTERRUPT(0x8, (uint32_t)&divided_by_zero, 0x4);
+	idt[0xe] = INTERRUPT(0x8, (uint32_t)&page_fault, 0x4);
 	idt[0x20] = INTERRUPT(0x8, (uint32_t)&pitirq, 0x4);
 	idt[0x21] = INTERRUPT(0x8, (uint32_t)&kbdirq, 0x4);
 	idt[0x22] = INTERRUPT(0x8, (uint32_t)&apic_timer_irq, 0x4);
