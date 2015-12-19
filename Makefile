@@ -1,4 +1,4 @@
-CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Werror -O0
+CFLAGS:=$(CFLAGS) -ffreestanding -Wall  -O0 -g -Werror #-DDEBUG
 CPPFLAGS:=$(CFLAGS) -D__is_tomos_kernel -Iinclude
 LDFLAGS:=$(LDFLAGS)
 LIBS:=$(LIBS) -nostdlib -lk -lgcc
