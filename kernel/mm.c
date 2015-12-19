@@ -17,6 +17,11 @@
 
 #define C_ALLOCED 1
 #define C_SIZE(chunk) (chunk->csize & -2)
+#define C_HEADER_SIZE sizeof(struct chunk)
+#define SBRK_INC(x)                                                            \
+	((((x - C_SIZE(current) + C_HEADER_SIZE)/ 0x1000) + 1) * 0x1000)
+#define OLDBRK                                                                 \
+	((intptr_t)current + C_HEADER_SIZE + C_SIZE(current))
 
 extern void *_end;
 extern uint32_t *mbstruct;
@@ -32,15 +37,10 @@ struct chunk {
 
 void mminit()
 {
-	char *test;
 	/* Set top of heap in kernel proc struct  */
 	kernel_thread->start_heap = (void *)&_end;
 	kernel_thread->brk = (void *)&_end;
 
-	/* malloc test */
-	test = (char *)kmalloc(16);
-	kstrcpy(test, "foobar");
-	__asm__("cli;hlt");
 	/* detect memory size and create page structs */
 	probe_pages();
 }
@@ -59,28 +59,46 @@ void *kmalloc(size_t bytes)
 	size_t alloc_size = (bytes / 8 * 8) + 1;
 	intptr_t newnext;
 	intptr_t retaddr;
-	if (sbrk(0) == kernel_thread->brk) {
-		struct chunk *fc = (struct chunk *)sbrk(0x1000);
-		fc->csize = 0x1000 - sizeof(struct chunk);
+	intptr_t newbrk;
+	struct chunk *fc = kernel_thread->start_heap;
+	if (sbrk(0) == kernel_thread->start_heap) {
+		(struct chunk *)sbrk(0x1000);
+		fc->csize = 0x1000 - C_HEADER_SIZE;
 		fc->next = NULL;
 		fc->prev = NULL;
 	}
 	struct chunk *current = (struct chunk *)(kernel_thread->start_heap);
-	while (current) {
-		if (current->csize >= (alloc_size + sizeof(struct chunk))) {
+FIND:
+	while (1) {
+		if (current->csize >= (alloc_size + C_HEADER_SIZE)) {
 			printk("found");
 			goto FOUND;
 		}
+		if (!current->next)
+			break;
 		current = current->next;
+	}
+	if ((newbrk = (intptr_t)sbrk(SBRK_INC(alloc_size)))) {
+		if (current->csize & C_ALLOCED) {
+			newnext = OLDBRK;
+			current->next = (struct chunk *)OLDBRK;
+			current->next->prev = current;
+			current = current->next;
+			current->next = NULL;
+			current->csize = newbrk - OLDBRK - C_HEADER_SIZE;
+		} else {
+			current->csize += (newbrk - OLDBRK);
+		}
+		goto FIND;
 	}
 	return NULL;
 
 FOUND:
 	current->csize = alloc_size | C_ALLOCED;
-	newnext= (intptr_t)current + current->csize + sizeof(struct chunk);
+	newnext= (intptr_t)current + C_HEADER_SIZE + current->csize;
 	current->next = (struct chunk *)newnext;
 	current->next->prev = current;
 
-	retaddr = (intptr_t)current + sizeof(struct chunk);
+	retaddr = (intptr_t)current + C_HEADER_SIZE;
 	return (void *)retaddr;
 }
