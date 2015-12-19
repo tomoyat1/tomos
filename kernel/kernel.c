@@ -26,7 +26,7 @@ uint32_t *mbstruct;
 
 struct bh *kernel_thread = (struct bh *)&kernel_stack_bottom;
 
-void start_kernel(uint32_t *sysmbstruct, uint32_t mbmagic, uint32_t *heap_top)
+void start_kernel(uint32_t *sysmbstruct, uint32_t mbmagic)
 {
 	mbstruct = sysmbstruct;
 	init_vga();
