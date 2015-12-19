@@ -56,9 +56,3 @@ page_fault:
 	cli
 	hlt
 	iret
-
-.global page_fault
-page_fault:
-	pushl $0xDEADBEEF
-	cli
-	hlt
