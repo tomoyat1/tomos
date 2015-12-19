@@ -120,7 +120,7 @@ void initapic()
 	"movl %%edx, %%ecx\n\t"
 	:"=c"(ret)
 	:
-	: "%eax", "%edx"
+	: "eax", "edx"
 	);
 	if (!(ret & (1 << 9)))
 		panic("No APIC found.");
