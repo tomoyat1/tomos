@@ -2,18 +2,24 @@
 
 .global divided_by_zero
 divided_by_zero:
-	lcall $0x8, $divzero
-	popl %edx
+	pushal
+	cld
+	call divzero
+	popal
 	iret
 
 .global kbdirq
 kbdirq:
-	lcall $0x8, $keypress
-	popl %edx
+	pushal
+	cld
+	call keypress
+	popal
 	iret
 
 .global pitirq
 pitirq:
+	pushal
+	cld
 	movb $0xC2, %al
 	movw $0x43, %dx
 	outb %al, %dx
@@ -25,17 +31,28 @@ pitirq:
 	jmp square_gen
 
 int_on_term_count:
-	lcall $0x8, $oneshot_handler
-	popl %edx
-	iret
+	call oneshot_handler
+	jmp pit_irq_exit
 
 square_gen:
-	lcall  $0x8, $square_handler
-	popl %edx
+	call  square_handler
+	jmp pit_irq_exit
+
+pit_irq_exit:
+	popal
 	iret
 
 .global apic_timer_irq
 apic_timer_irq:
-	lcall $0x8, $apic_timer_handler
-	popl %edx
+	pushal
+	cld
+	call apic_timer_handler
+	popal
+	iret
+
+.global page_fault
+page_fault:
+	pushl $0xDEADBEEF
+	cli
+	hlt
 	iret
