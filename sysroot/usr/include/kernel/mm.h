@@ -18,4 +18,6 @@ void init_heap(void *heap_base);
 void add_heap(void *heap_base);
 
 void *kmalloc(size_t bytes);
+
+void kfree(void *ptr);
 #endif
