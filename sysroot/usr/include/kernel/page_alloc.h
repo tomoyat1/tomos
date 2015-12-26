@@ -4,23 +4,26 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include <kernel/proc.h>
+
 struct page_struct;
 
 struct page_struct {
 	uint32_t phys_addr;
-	uint32_t flags;	
+	pid_t owner;
 	struct page_struct *next;
+	struct page_struct *prev;
 };
 
 /*
- * flags:
- * bit 1: paged in
- * bit 2: permissions, 1 for kernel, 0 for user.
- * bit 3: io mapped
+ * owner 
+ * pid  0: kernel
+ * pid  1: init
+ * pid -1: non-mapped
  */
 
 void probe_pages();
 
-struct page_struct * page_rq(); 
+struct page_struct * alloc_page(int pow); 
 
 #endif

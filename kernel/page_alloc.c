@@ -53,20 +53,51 @@ void probe_pages(){
 			 */
 			if (ps[i].phys_addr != 0x1000 * i)
 				panic("memory error");
-			ps[i].flags = 0x2; /* kernel, non-mapped */
-			ps[i].next = (struct page_struct *)(0x1000 * (i + 1));
+			ps[i].owner = -1; /* Free to take */
+			ps[i].next = (struct page_struct *)&ps[i+1];
+			ps[i].prev = (struct page_struct *)&ps[i-1];
 		}
 	} else
 		panic("Failed to allocate memory for page structs");
 
 	ps[max_pages - 1].next = NULL;
+	ps[0].prev = NULL;
 
 	/* Assuming first three 4MiB pages are allocated at boot. */
 	for (int i = 0; i < 0xc00; i++)
-		ps[i].flags = 0x3; /* kernel, mapped */
+		ps[i].owner = 0; /* kernel */
 
 	/* Detect IO mapped memory regions and flag them as so */
 	printk("success!");
-	__asm__("cli;hlt");
-	
+}
+
+struct page_struct * alloc_page(int pow)
+{
+	int size = 1;
+	int cont = 0;
+	struct page_struct *f;
+	for (int i = 0; i < pow; i++) {
+		size *= 2;
+	}
+	for (int i = 0;;i++) {
+		if (ps[i].next == NULL)
+			goto FAIL;
+		if (ps[i].owner == -1) {
+			if (!f)
+				f = &ps[i];
+			cont++;
+			/* Assume kernel for now  */
+			ps[i].owner = 0;
+			if (cont == size)
+				break;
+		} else {
+			f = NULL;
+		}
+	}
+
+	return f;
+
+FAIL:
+	panic("Out of physical memory.");
+	return NULL;
 }
