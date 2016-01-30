@@ -1,4 +1,4 @@
-all: pminit.o interrupts.o paging.o apic.o pit.o asm
+all: pminit.o interrupts.o vm.o apic.o pit.o asm
 	@echo Building x86
 %.o: %.S
 	$(CC) -c $< -o $@ $(CFLAGS) $(CPPFLAGS)

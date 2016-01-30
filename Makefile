@@ -1,5 +1,5 @@
 CFLAGS:=$(CFLAGS) -ffreestanding -Wall  -O0 -g -Werror #-DDEBUG
-CPPFLAGS:=$(CFLAGS) -D__is_tomos_kernel -Iinclude
+CPPFLAGS:=$(CFLAGS) -D__is_tomos_kernel -Dx86 -Iinclude
 LDFLAGS:=$(LDFLAGS)
 LIBS:=$(LIBS) -nostdlib -lk -lgcc
 
