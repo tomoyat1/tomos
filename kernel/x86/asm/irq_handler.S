@@ -52,7 +52,9 @@ apic_timer_irq:
 
 .global page_fault
 page_fault:
-	pushl $0xDEADBEEF
-	cli
-	hlt
+	pushal
+	cld
+	mov %ecx, %CR2
+	pushl %eax
+	call page_fault_handler
 	iret

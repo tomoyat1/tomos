@@ -5,4 +5,10 @@
 
 void printk(char* string);
 
+void
+printdec(unsigned int i);
+
+void
+printhex(unsigned int i);
+
 #endif

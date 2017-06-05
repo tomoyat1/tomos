@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include <kernel/proc.h>
+#include <kernel/types.h>
 
 struct page_struct;
 

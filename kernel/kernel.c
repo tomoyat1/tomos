@@ -16,11 +16,13 @@
 #include <kernel/panic.h>
 #include <kernel/mm.h>
 #include <kernel/proc.h>
+#include <kernel/sched.h>
 
 #include <kernel/klib.h>
 #include <kernel/kstring.h>
 
 extern void *kernel_stack_bottom;
+extern struct proc_struct *current;
 
 uint32_t *mbstruct;
 
@@ -40,6 +42,8 @@ void start_kernel(uint32_t *sysmbstruct, uint32_t mbmagic)
 
 	/* setup keyboard */
 	kbdinit();
+
+	current = kernel_thread;
 
 	//square_pit(1);
 	 while (1) {

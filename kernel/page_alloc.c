@@ -10,6 +10,10 @@
 #include <kernel/mm.h>
 #include <kernel/klib.h>
 
+#ifdef x86
+#include <kernel/x86/vm.h>
+#endif
+
 extern uint32_t kernelpagedir;
 extern uint32_t *mbstruct;
 
@@ -43,14 +47,6 @@ void probe_pages(){
 	if (ps) {
 		for (i = 0; i < max_pages; i++) {
 			ps[i].phys_addr = 0x1000 * i;
-			/*
-			 * When kernel page faults on access to
-			 * 0x00108000, the following test fails
-			 * success -> memory limit off by 2 bits
-			 * perhaps qemu bugginess
-			 * failure -> ps is 0xbfe000b0
-			 * this is the same as local apic eoi reg
-			 */
 			if (ps[i].phys_addr != 0x1000 * i)
 				panic("memory error");
 			ps[i].owner = -1; /* Free to take */
@@ -71,6 +67,7 @@ void probe_pages(){
 	printk("success!");
 }
 
+/* Find free page_frame and do architecture specific mapping */
 struct page_struct * alloc_page(int pow)
 {
 	int size = 1;
